@@ -1,0 +1,33 @@
+.body {
+    background-color: black;
+
+    max-width: 880px;
+
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media screen and (max-width: 980px) {
+    .body {
+        margin-right: 60px;
+        margin-left: 60px;
+    }
+}
+
+@media screen and (max-width: 402px) {
+    .body {
+        max-width: 282px;
+
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .body {
+        max-width: 282px;
+
+        margin-right: 19px;
+        margin-left: 19px;
+    }
+}
