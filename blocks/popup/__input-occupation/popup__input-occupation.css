@@ -1,5 +1,4 @@
 .popup__input-occupation {
-    width: 358px;
     height: 27px;
 
     border: none;
@@ -13,6 +12,8 @@
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;
+
+    width: 100%;
 
     color: #000000;
 }

@@ -5,7 +5,7 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 
-    <title>Путешествия по России</title>
+    <title>Mesto</title>
     <link href="./pages/index.css" rel="stylesheet">
 </head>
 <body class="body">
@@ -17,12 +17,12 @@
     <section class="profile">
         <img src="images/profile_avatar.jpg" alt="Аватар профиля" class="profile__avatar">
         <div class="profile__info">
-            <div>
-                <div class="profile__edit">
-                    <p class="profile__name">Жак-Ив Кусто</p>
-                    <button class="profile__edit-icon"></button>
-                </div>
+
+            <div class="profile__edit">
+                <p class="profile__name">Жак-Ив Кусто</p>
+                <button class="profile__edit-icon"></button>
             </div>
+
             <p class="profile__occupation">Исследователь океана</p>
         </div>
         <button class="profile__button"></button>
@@ -83,7 +83,7 @@
     </section>
 </main>
 <footer class="footer">
-    <p class="footer__copyright">© 2021 Mesto Russia</p>
+    <h1 class="footer__copyright">© 2021 Mesto Russia</h1>
 </footer>
 
 <section class="popup">
@@ -91,8 +91,10 @@
         <div class="popup__close"></div>
         <h3 class="popup__title">Редактировать профиль</h3>
         <form>
-            <label> <input type="text" name="name" class="popup__input-name" placeholder="Имя и фамилия" required> </label>
-            <label> <input type="text" name="occupation" class="popup__input-occupation" placeholder="Род деятельности" required> </label>
+            <label> <input type="text" name="name" class="popup__input-name" placeholder="Имя и фамилия" required>
+            </label>
+            <label> <input type="text" name="occupation" class="popup__input-occupation" placeholder="Род деятельности"
+                           required> </label>
             <button type="submit" class="popup__submit">Сохранить</button>
         </form>
 

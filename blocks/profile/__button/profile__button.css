@@ -1,6 +1,7 @@
 .profile__button {
     background-image: url("../../../images/add_button.png");
-    width: 150px;
+    min-width: 150px;
+
     height: 50px;
 
     margin-left: auto;
@@ -13,6 +14,8 @@
     border: 2px solid #FFFFFF;
     box-sizing: border-box;
     border-radius: 2px;
+
+    cursor: pointer;
 
     transition-property: opacity;
     transition-duration: 0.5s;

@@ -12,9 +12,18 @@
 
     transition-property: background-image;
     transition-duration: 0.5s;
+
+    cursor: pointer;
 }
 
 .popup__close:hover {
     background-image: url("../../../images/close_button/hover.png");
 
+}
+
+@media screen and (max-width: 550px) {
+    .popup__close {
+        top: -48px;
+        right: 0;
+    }
 }
