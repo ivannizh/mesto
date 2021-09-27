@@ -1,7 +1,7 @@
 const popup = document.querySelector('.popup')
 const popupOpenBtn = document.querySelector('.profile__edit-icon')
 const popupCloseBtn = popup.querySelector('.popup__close')
-const popupSaveBtn = popup.querySelector('.popup__submit')
+const popupForm = popup.querySelector('.popup__form')
 const body = document.querySelector('.body')
 
 function closePopup(){
@@ -28,7 +28,7 @@ popupCloseBtn.addEventListener('click', function () {
     closePopup()
 })
 
-popupSaveBtn.addEventListener('click', function (event) {
+popupForm.addEventListener('submit', function (event) {
     event.preventDefault()
     closePopup()
 
