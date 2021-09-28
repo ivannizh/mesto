@@ -5,13 +5,13 @@
     white-space: nowrap;
     overflow: hidden;
 
-    margin-right: 20px ;
+    margin-right: 20px;
 
     max-width: 100%;
 }
 
 @media screen and (max-width: 920px) {
     .profile__info {
-        margin-right: 0 ;
+        margin-right: 0;
     }
 }
