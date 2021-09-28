@@ -20,9 +20,11 @@
     transition-property: opacity;
     transition-duration: 0.5s;
 }
+
 .profile__button:hover {
     opacity: 0.6;
 }
+
 @media screen and (max-width: 920px) {
     .profile__button {
         margin: 0;

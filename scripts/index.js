@@ -10,11 +10,11 @@ const fio_on_form = popup.querySelector('.popup__input-occupation')
 const occupation_on_form = popup.querySelector('.popup__input-name')
 
 
-function closePopup(){
+function closePopup() {
     popup.classList.remove('popup_opened')
 }
 
-function openPopup(){
+function openPopup() {
     popup.classList.add('popup_opened')
 }
 
