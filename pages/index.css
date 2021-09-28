@@ -2,7 +2,6 @@
 @import url(../vendor/fonts.css);
 
 @import url(../blocks/body/body.css);
-@import url(../blocks/body/_no-scroll/body_no-scroll.css);
 
 @import url(../blocks/header/__logo/header__logo.css);
 @import url(../blocks/header/header.css);

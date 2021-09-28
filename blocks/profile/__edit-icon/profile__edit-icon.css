@@ -14,7 +14,7 @@
     background-color: black;
     padding: 0;
     margin: 0;
-color: black;
+    color: black;
 
     cursor: pointer;
 }
@@ -22,4 +22,12 @@ color: black;
 .profile__edit-icon:hover {
     background-image: url("../../../images/edit_button/hover.png");
 
+}
+
+@media screen and (max-width: 920px) {
+    .profile__edit-icon {
+        width: 18px;
+        height: 18px;
+
+    }
 }

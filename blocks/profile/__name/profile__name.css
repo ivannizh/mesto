@@ -20,7 +20,13 @@
 @media screen and (max-width: 920px) {
     .profile__name {
         text-align: center;
-        margin-bottom: 14px;
+        margin-bottom: 8px;
+        margin-right:10px;
+    }
+
+    .profile__name:before {
+        content: "";
+        padding-left: 27px;
     }
 }
 
