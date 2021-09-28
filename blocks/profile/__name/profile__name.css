@@ -10,8 +10,6 @@
     line-height: 48px;
     color: #FFFFFF;
 
-
-    max-width: 410px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -35,8 +33,6 @@
     .profile__name {
         font-size: 27px;
         line-height: 33px;
-
-        max-width: 220px;
     }
 }
 
