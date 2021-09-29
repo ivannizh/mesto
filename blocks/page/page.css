@@ -1,1 +1,4 @@
-.page{}
+.page {
+    background-color: black;
+    width: 100%;
+}
