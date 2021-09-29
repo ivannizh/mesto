@@ -3,11 +3,11 @@ const popupOpenBtn = document.querySelector('.profile__edit-icon')
 const popupCloseBtn = popup.querySelector('.popup__close')
 const popupForm = popup.querySelector('.popup__form')
 
-const fio_on_page = document.querySelector('.profile__name')
-const occupation_on_page = document.querySelector('.profile__occupation')
+const fioOnPage = document.querySelector('.profile__name')
+const occupationOnPage = document.querySelector('.profile__occupation')
 
-const fio_on_form = popup.querySelector('.popup__input_name')
-const occupation_on_form = popup.querySelector('.popup__input_occupation')
+const fioOnForm = popup.querySelector('.popup__input_name')
+const occupationOnForm = popup.querySelector('.popup__input_occupation')
 
 
 function closePopup() {
@@ -15,24 +15,21 @@ function closePopup() {
 }
 
 function openPopup() {
+    fioOnForm.value = fioOnPage.textContent
+    occupationOnForm.value = occupationOnPage.textContent
+
     popup.classList.add('popup_opened')
 }
 
-popupOpenBtn.addEventListener('click', function() {
-    openPopup()
+popupOpenBtn.addEventListener('click', openPopup)
 
-    fio_on_form.value = fio_on_page.textContent
-    occupation_on_form.value = occupation_on_page.textContent
-})
-
-popupCloseBtn.addEventListener('click', function() {
-    closePopup()
-})
+popupCloseBtn.addEventListener('click', closePopup)
 
 popupForm.addEventListener('submit', function(event) {
     event.preventDefault()
-    closePopup()
 
-    fio_on_page.textContent = fio_on_form.value
-    occupation_on_page.textContent = occupation_on_form.value
+    fioOnPage.textContent = fioOnForm.value
+    occupationOnPage.textContent = occupationOnForm.value
+
+    closePopup()
 })
