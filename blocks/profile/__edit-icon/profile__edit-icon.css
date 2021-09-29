@@ -6,28 +6,23 @@
     display: inline;
     min-width: 24px;
     height: 24px;
-
     transition-property: background-image;
     transition-duration: 0.5s;
-
     border: none;
     background-color: black;
     padding: 0;
     margin: 0;
     color: black;
-
     cursor: pointer;
 }
 
 .profile__edit-icon:hover {
     background-image: url("../../../images/edit_button/hover.png");
-
 }
 
 @media screen and (max-width: 920px) {
     .profile__edit-icon {
         min-width: 18px;
         height: 18px;
-
     }
 }

@@ -6,8 +6,8 @@ const popupForm = popup.querySelector('.popup__form')
 const fio_on_page = document.querySelector('.profile__name')
 const occupation_on_page = document.querySelector('.profile__occupation')
 
-const fio_on_form = popup.querySelector('.popup__input-name')
-const occupation_on_form = popup.querySelector('.popup__input-occupation')
+const fio_on_form = popup.querySelector('.popup__input_name')
+const occupation_on_form = popup.querySelector('.popup__input_occupation')
 
 
 function closePopup() {
@@ -18,18 +18,18 @@ function openPopup() {
     popup.classList.add('popup_opened')
 }
 
-popupOpenBtn.addEventListener('click', function () {
+popupOpenBtn.addEventListener('click', function() {
     openPopup()
 
     fio_on_form.value = fio_on_page.textContent
     occupation_on_form.value = occupation_on_page.textContent
 })
 
-popupCloseBtn.addEventListener('click', function () {
+popupCloseBtn.addEventListener('click', function() {
     closePopup()
 })
 
-popupForm.addEventListener('submit', function (event) {
+popupForm.addEventListener('submit', function(event) {
     event.preventDefault()
     closePopup()
 

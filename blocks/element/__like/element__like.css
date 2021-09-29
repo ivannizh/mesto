@@ -1,20 +1,14 @@
 .element__like {
     background-image: url("../../../images/like/disable.png");
-
-
     background-repeat: no-repeat;
     background-size: auto;
     background-position: center;
-
     border: none;
     background-color: #FFFFFF;
-
     height: 23px;
     width: 23px;
-
     padding: 0;
     margin: 0;
-
     transition-property: background-image;
     transition-duration: 0.5s;
 }
