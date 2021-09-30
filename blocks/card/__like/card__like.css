@@ -9,10 +9,10 @@
     width: 23px;
     padding: 0;
     margin: 0;
-    transition-property: background-image;
+    transition-property: opacity;
     transition-duration: 0.5s;
 }
 
 .card__like:hover {
-    background-image: url("../../../images/like/hover.png");
+    opacity: .5;
 }
