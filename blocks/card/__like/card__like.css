@@ -1,4 +1,4 @@
-.element__like {
+.card__like {
     background-image: url("../../../images/like/disable.png");
     background-repeat: no-repeat;
     background-size: auto;
@@ -13,10 +13,6 @@
     transition-duration: 0.5s;
 }
 
-.element__like:hover {
+.card__like:hover {
     background-image: url("../../../images/like/hover.png");
-}
-
-.element__like:active {
-    background-image: url("../../../images/like/active.png");
 }
