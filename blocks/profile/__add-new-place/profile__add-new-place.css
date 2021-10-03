@@ -1,4 +1,4 @@
-.profile__add-button {
+.profile__add-new-place {
     background-image: url("../../../images/add_button.png");
     min-width: 150px;
     height: 50px;
@@ -15,12 +15,12 @@
     transition-duration: 0.5s;
 }
 
-.profile__add-button:hover {
+.profile__add-new-place:hover {
     opacity: 0.6;
 }
 
 @media screen and (max-width: 920px) {
-    .profile__add-button {
+    .profile__add-new-place {
         margin: 0;
         width: 100%;
     }

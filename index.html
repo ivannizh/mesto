@@ -20,63 +20,22 @@
             <div class="profile__info">
                 <div class="profile__edit">
                     <h1 class="profile__name">Жак-Ив Кусто</h1>
-                    <button class="profile__edit-button" type="button" aria-label="edit"></button>
+                    <button class="profile__edit-button" type="button" aria-label="редактировать"></button>
                 </div>
                 <p class="profile__occupation">Исследователь океана</p>
             </div>
-            <button class="profile__add-button" type="button" aria-label="add"></button>
+            <button class="profile__add-new-place" type="button" aria-label="добавить"></button>
         </section>
         <section class="cards">
-            <div class="card">
-                <img alt="Карачаевск" class="card__img" src="images/karachaevsk.jpg">
-                <div class="card__caption">
-                    <h2 class="card__title">карачаевск</h2>
-                    <button class="card__like" type="button" aria-label="like"></button>
-                </div>
-            </div>
-            <div class="card">
-                <img alt="Эльбрус" class="card__img" src="images/elbrus.jpg">
-                <div class="card__caption">
-                    <h2 class="card__title">гора Эльбрус</h2>
-                    <button class="card__like" type="button" aria-label="like"></button>
-                </div>
-            </div>
-            <div class="card">
-                <img alt="Домбай" class="card__img" src="images/dombai.jpg">
-                <div class="card__caption">
-                    <h2 class="card__title">домбай</h2>
-                    <button class="card__like" type="button" aria-label="like"></button>
-                </div>
-            </div>
-            <div class="card">
-                <img alt="Эльбрус" class="card__img" src="images/elbrus.jpg">
-                <div class="card__caption">
-                    <h2 class="card__title">гора Эльбрус</h2>
-                    <button class="card__like" type="button" aria-label="like"></button>
-                </div>
-            </div>
-            <div class="card">
-                <img alt="Домбай" class="card__img" src="images/dombai.jpg">
-                <div class="card__caption">
-                    <h2 class="card__title">домбай</h2>
-                    <button class="card__like" type="button" aria-label="like"></button>
-                </div>
-            </div>
-            <div class="card">
-                <img alt="Карачаевск" class="card__img" src="images/karachaevsk.jpg">
-                <div class="card__caption">
-                    <h2 class="card__title">карачаево-черкесия</h2>
-                    <button class="card__like" type="button" aria-label="like"></button>
-                </div>
-            </div>
+
         </section>
     </main>
     <footer class="footer page__container">
         <p class="footer__copyright">© 2021 Mesto Russia</p>
     </footer>
-    <div class="popup">
+    <div class="popup popup_type_profile-edit">
         <div class="popup__container">
-            <button class="popup__close" type="button" aria-label="close"></button>
+            <button class="popup__close" type="button" aria-label="закрыть"></button>
             <h2 class="popup__title">Редактировать профиль</h2>
             <form class="popup__form" name="change_profile_info">
                 <input class="popup__input popup__input_type_name" name="name" placeholder="Имя и фамилия" required type="text">
@@ -85,6 +44,29 @@
             </form>
         </div>
     </div>
+    <div class="popup popup_type_new-place">
+        <div class="popup__container">
+            <button class="popup__close" type="button" aria-label="закрыть"></button>
+            <h2 class="popup__title">Новое место</h2>
+            <form class="popup__form" name="new_place">
+<!--                <input class="popup__input popup__input_type_place_name" name="place_name" placeholder="Название" required type="text">-->
+<!--                <input class="popup__input popup__input_type_place_url" name="place_url" placeholder="Ссылка на картинку" required type="text">-->
+                <input class="popup__input popup__input_type_place_name" name="place_name" placeholder="Название" required type="text" value="jkhkjhg">
+                <input class="popup__input popup__input_type_place_url" name="place_url" placeholder="Ссылка на картинку" required type="text" value="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg">
+                <button class="popup__submit" type="submit">Создать</button>
+            </form>
+        </div>
+    </div>
+    <template id="card">
+        <div class="card">
+            <img class="card__img" alt="default" src="">
+            <button aria-label="удалить" class="card__delete" type="button"></button>
+            <div class="card__caption">
+                <h2 class="card__title"></h2>
+                <button class="card__like" type="button" aria-label="оценить"></button>
+            </div>
+        </div>
+    </template>
     <script src="scripts/index.js"></script>
 </body>
 
