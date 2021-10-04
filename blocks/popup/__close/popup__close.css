@@ -7,17 +7,17 @@
     height: 32px;
     top: -40px;
     right: -40px;
-    transition-property: background-image;
+    transition-property: opacity;
     transition-duration: 0.5s;
     cursor: pointer;
     border: none;
     margin: 0;
     padding: 0;
-    background-color: black;
+    background-color: rgba(0,0,0,0);
 }
 
 .popup__close:hover {
-    background-image: url("../../../images/close_button/hover.png");
+    opacity: .6;
 }
 
 @media screen and (max-width: 550px) {
