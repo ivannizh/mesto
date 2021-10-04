@@ -14,8 +14,8 @@ const occupationOnPage = document.querySelector('.profile__occupation')
 const fioOnForm = popupEditProfile.querySelector('.popup__input_type_name')
 const occupationOnForm = popupEditProfile.querySelector('.popup__input_type_occupation')
 
-const placeNameOnForm = popupEditNewPlace.querySelector('.popup__input_type_place_name')
-const placeUrlOnForm = popupEditNewPlace.querySelector('.popup__input_type_place_url')
+const placeNameOnForm = popupEditNewPlace.querySelector('.popup__input_type_place-name')
+const placeUrlOnForm = popupEditNewPlace.querySelector('.popup__input_type_place-url')
 
 const popupImageImage = popupImage.querySelector('.popup__image')
 
