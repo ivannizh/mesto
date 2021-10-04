@@ -20,8 +20,7 @@ const placeUrlOnForm = popupEditNewPlace.querySelector('.popup__input_type_place
 const popupImageImage = popupImage.querySelector('.popup__image')
 
 
-const initialCards = [
-    {
+const initialCards = [{
         name: 'Архыз',
         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
     },
@@ -51,7 +50,7 @@ const cardTemplate = document.querySelector('#card').content.querySelector('.car
 let cardsArray = document.querySelector('.cards')
 
 function beforeRender() {
-    initialCards.forEach(function (item) {
+    initialCards.forEach(function(item) {
         const card = cardTemplate.cloneNode(true);
         card.querySelector('.card__title').textContent = item.name;
         card.querySelector('.card__img').setAttribute('src', item.link);
@@ -125,6 +124,6 @@ popupEditProfileOpenBtn.addEventListener('click', openPopupEditForm)
 popupNewPlaceOpenBtn.addEventListener('click', openPopupNewPlace)
 popupEditProfileForm.addEventListener('submit', formEditProfileSubmitHandler)
 popupNewPlaceForm.addEventListener('submit', formNewPlaceSubmitHandler)
-popupCloseBtns.forEach(function (btn) {
+popupCloseBtns.forEach(function(btn) {
     btn.addEventListener('click', closePopup)
 })
