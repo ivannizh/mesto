@@ -32,7 +32,7 @@ function createCard(cardName, cardLink) {
 }
 
 function renderInitialCards() {
-    initialCards.forEach(function (item) {
+    initialCards.forEach(function(item) {
         cardsArray.append(createCard(item.name, item.link))
     })
 }
@@ -50,6 +50,7 @@ function closePopup(popupWindow) {
 function closePopupEvent(event) {
     closePopup(event.target.closest('.popup'));
 }
+
 function openPopupEditForm() {
     inputUserName.value = userName.textContent
     inputUserOccupation.value = userOccupation.textContent
@@ -110,6 +111,6 @@ popupEditProfileOpenBtn.addEventListener('click', openPopupEditForm)
 popupNewPlaceOpenBtn.addEventListener('click', openPopupNewPlace)
 popupEditProfileForm.addEventListener('submit', formEditProfileSubmitHandler)
 popupNewPlaceForm.addEventListener('submit', formNewPlaceSubmitHandler)
-popupCloseBtns.forEach(function (btn) {
+popupCloseBtns.forEach(function(btn) {
     btn.addEventListener('click', closePopupEvent)
 })
