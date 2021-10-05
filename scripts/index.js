@@ -5,7 +5,7 @@ const popupCloseBtns = document.querySelectorAll('.popup__close')
 const popupImage = document.querySelector('.popup_type_image ')
 const popupNewPlaceOpenBtn = document.querySelector('.profile__add-new-place')
 const popupEditNewPlace = document.querySelector('.popup_type_new-place ')
-const popupNewPlaceForm = popupEditNewPlace.querySelector('.popup__frm')
+const popupNewPlaceForm = popupEditNewPlace.querySelector('.popup__form')
 const userName = document.querySelector('.profile__name')
 const userOccupation = document.querySelector('.profile__occupation')
 const inputUserName = popupEditProfile.querySelector('.popup__input_type_name')
@@ -24,7 +24,9 @@ function createCard(cardName, cardLink) {
     image.setAttribute('src', cardLink);
     image.setAttribute('alt', cardName);
 
-    card.addEventListener('click', cardEvent);
+    card.querySelector('.card__delete').addEventListener('click', deleteCard);
+    card.querySelector('.card__like').addEventListener('click', toggleLike);
+    card.querySelector('.card__img').addEventListener('click', openImagePopup);
 
     return card
 }
@@ -38,13 +40,16 @@ function renderInitialCards() {
 renderInitialCards()
 
 function openPopup(popupWindow) {
-    popupWindow.closest('.popup').classList.add('popup_opened')
+    popupWindow.classList.add('popup_opened')
 }
 
 function closePopup(popupWindow) {
-    popupWindow.closest('.popup').classList.remove('popup_opened')
+    popupWindow.classList.remove('popup_opened')
 }
 
+function closePopupEvent(event) {
+    closePopup(event.target.closest('.popup'));
+}
 function openPopupEditForm() {
     inputUserName.value = userName.textContent
     inputUserOccupation.value = userOccupation.textContent
@@ -71,41 +76,40 @@ function formEditProfileSubmitHandler(event) {
     userName.textContent = inputUserName.value
     userOccupation.textContent = inputUserOccupation.value
 
-    closePopup(event.target)
+    closePopup(popupEditProfile)
 }
 
 function formNewPlaceSubmitHandler(event) {
     event.preventDefault()
     cardsArray.prepend(createCard(placeNameOnForm.value, placeUrlOnForm.value));
-    closePopup(event.target)
+    closePopup(popupEditNewPlace)
 }
 
-function cardEvent(event) {
-    if (event.target.classList.contains('card__delete')) {
 
-        event.currentTarget.removeEventListener('click', cardEvent);
-        event.currentTarget.remove();
-        return
-    }
-    if (event.target.classList.contains('card__like')) {
-        event.target.classList.toggle('card__like_active')
-        return
-    }
-    if (event.target.classList.contains('card__img')) {
-        const caption = event.target.closest('.card').querySelector('.card__title').textContent
-        const alt = event.target.getAttribute('alt')
-        const src = event.target.getAttribute('src')
+function deleteCard(event) {
+    const card = event.currentTarget.closest('.card');
+    card.querySelector('.card__delete').removeEventListener('click', deleteCard);
+    card.querySelector('.card__like').removeEventListener('click', toggleLike);
+    card.querySelector('.card__img').removeEventListener('click', openImagePopup);
+    card.remove();
+}
 
-        openPopupImage(alt, caption, src);
-        return
-    }
+function toggleLike(event) {
+    event.target.classList.toggle('card__like_active')
+}
+
+function openImagePopup(event) {
+    const caption = event.target.closest('.card').querySelector('.card__title').textContent
+    const alt = event.target.getAttribute('alt')
+    const src = event.target.getAttribute('src')
+
+    openPopupImage(alt, caption, src);
 }
 
 popupEditProfileOpenBtn.addEventListener('click', openPopupEditForm)
 popupNewPlaceOpenBtn.addEventListener('click', openPopupNewPlace)
 popupEditProfileForm.addEventListener('submit', formEditProfileSubmitHandler)
 popupNewPlaceForm.addEventListener('submit', formNewPlaceSubmitHandler)
-
 popupCloseBtns.forEach(function (btn) {
-    btn.addEventListener('click', closePopup)
+    btn.addEventListener('click', closePopupEvent)
 })
