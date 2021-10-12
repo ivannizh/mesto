@@ -33,7 +33,7 @@ function createCard(cardName, cardLink) {
 }
 
 function renderInitialCards() {
-    initialCards.forEach(function (item) {
+    initialCards.forEach(function(item) {
         cardsArray.append(createCard(item.name, item.link))
     })
 }
@@ -59,32 +59,39 @@ function closePopupEvent(event) {
 }
 
 function openPopupEditForm() {
-    inputUserName.value = userName.textContent
-    inputUserOccupation.value = userOccupation.textContent
+    inputUserName.value = userName.textContent;
+    inputUserOccupation.value = userOccupation.textContent;
 
-    openPopup(popupEditProfile)
+    const event = new Event('input', {
+        bubbles: true,
+        cancelable: true,
+    });
+
+    inputUserName.dispatchEvent(event);
+    inputUserOccupation.dispatchEvent(event);
+
+    openPopup(popupEditProfile);
 }
 
 function openPopupImage(alt, caption, src) {
-    popupImageImage.setAttribute('src', src)
-    popupImageImage.setAttribute('alt', alt)
-    popupImage.querySelector('.popup__image-caption').textContent = caption
+    popupImageImage.setAttribute('src', src);
+    popupImageImage.setAttribute('alt', alt);
+    popupImage.querySelector('.popup__image-caption').textContent = caption;
 
-    openPopup(popupImage)
+    openPopup(popupImage);
 }
 
 function openPopupNewPlace() {
-    openPopup(popupEditNewPlace)
+    openPopup(popupEditNewPlace);
 }
 
-
 function formEditProfileSubmitHandler(event) {
-    event.preventDefault()
+    event.preventDefault();
 
-    userName.textContent = inputUserName.value
-    userOccupation.textContent = inputUserOccupation.value
+    userName.textContent = inputUserName.value;
+    userOccupation.textContent = inputUserOccupation.value;
 
-    closePopup(popupEditProfile)
+    closePopup(popupEditProfile);
 }
 
 function formNewPlaceSubmitHandler(event) {
@@ -136,6 +143,6 @@ popupEditProfileOpenBtn.addEventListener('click', openPopupEditForm)
 popupNewPlaceOpenBtn.addEventListener('click', openPopupNewPlace)
 popupEditProfileForm.addEventListener('submit', formEditProfileSubmitHandler)
 popupNewPlaceForm.addEventListener('submit', formNewPlaceSubmitHandler)
-popupCloseBtns.forEach(function (btn) {
+popupCloseBtns.forEach(function(btn) {
     btn.addEventListener('click', closePopupEvent)
 })
