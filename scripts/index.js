@@ -15,6 +15,7 @@ const placeUrlOnForm = popupEditNewPlace.querySelector('.popup__input_type_place
 const popupImageImage = popupImage.querySelector('.popup__image')
 const cardTemplate = document.querySelector('#card').content.querySelector('.card');
 const cardsArray = document.querySelector('.cards')
+const allPopups = document.querySelectorAll('.popup')
 
 function createCard(cardName, cardLink) {
     const card = cardTemplate.cloneNode(true);
@@ -32,7 +33,7 @@ function createCard(cardName, cardLink) {
 }
 
 function renderInitialCards() {
-    initialCards.forEach(function(item) {
+    initialCards.forEach(function (item) {
         cardsArray.append(createCard(item.name, item.link))
     })
 }
@@ -41,10 +42,16 @@ renderInitialCards()
 
 function openPopup(popupWindow) {
     popupWindow.classList.add('popup_opened')
+
+    popupWindow.addEventListener('click', closePopupOnOverlay);
+    document.addEventListener('keydown', closePopupOnEsc);
 }
 
 function closePopup(popupWindow) {
     popupWindow.classList.remove('popup_opened')
+
+    popupWindow.removeEventListener('click', closePopupOnOverlay);
+    document.addEventListener('keydown', closePopupOnEsc);
 }
 
 function closePopupEvent(event) {
@@ -107,10 +114,28 @@ function openImagePopup(event) {
     openPopupImage(alt, caption, src);
 }
 
+function closePopupOnOverlay(event) {
+    if (event.target.classList.contains('popup')) {
+        closePopup(event.target);
+    }
+}
+
+function closePopupOnEsc(event) {
+    console.log(event.key);
+    if (event.key === 'Escape') {
+        for (let i in allPopups) {
+            if (allPopups[i].classList.contains('popup_opened')) {
+                closePopup(allPopups[i]);
+                break;
+            }
+        }
+    }
+}
+
 popupEditProfileOpenBtn.addEventListener('click', openPopupEditForm)
 popupNewPlaceOpenBtn.addEventListener('click', openPopupNewPlace)
 popupEditProfileForm.addEventListener('submit', formEditProfileSubmitHandler)
 popupNewPlaceForm.addEventListener('submit', formNewPlaceSubmitHandler)
-popupCloseBtns.forEach(function(btn) {
+popupCloseBtns.forEach(function (btn) {
     btn.addEventListener('click', closePopupEvent)
 })
