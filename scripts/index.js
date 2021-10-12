@@ -139,10 +139,10 @@ function closePopupOnEsc(event) {
     }
 }
 
-popupEditProfileOpenBtn.addEventListener('click', openPopupEditForm)
-popupNewPlaceOpenBtn.addEventListener('click', openPopupNewPlace)
-popupEditProfileForm.addEventListener('submit', formEditProfileSubmitHandler)
-popupNewPlaceForm.addEventListener('submit', formNewPlaceSubmitHandler)
+popupEditProfileOpenBtn.addEventListener('click', openPopupEditForm);
+popupNewPlaceOpenBtn.addEventListener('click', openPopupNewPlace);
+popupEditProfileForm.addEventListener('submit', formEditProfileSubmitHandler);
+popupNewPlaceForm.addEventListener('submit', formNewPlaceSubmitHandler);
 popupCloseBtns.forEach(function(btn) {
-    btn.addEventListener('click', closePopupEvent)
+    btn.addEventListener('click', closePopupEvent);
 })
