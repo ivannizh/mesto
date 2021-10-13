@@ -6,6 +6,7 @@ const popupImage = document.querySelector('.popup_type_image ')
 const popupNewPlaceOpenBtn = document.querySelector('.profile__add-new-place')
 const popupEditNewPlace = document.querySelector('.popup_type_new-place ')
 const popupNewPlaceForm = popupEditNewPlace.querySelector('.popup__form')
+const popupNewPlaceSubmitButton = popupNewPlaceForm.querySelector('.popup__button')
 const userName = document.querySelector('.profile__name')
 const userOccupation = document.querySelector('.profile__occupation')
 const inputUserName = popupEditProfile.querySelector('.popup__input_type_name')
@@ -81,6 +82,12 @@ function openPopupImage(alt, caption, src) {
 }
 
 function openPopupNewPlace() {
+    placeNameOnForm.value = '';
+    placeUrlOnForm.value = '';
+
+    popupNewPlaceSubmitButton.setAttribute('disabled', true)
+    popupNewPlaceSubmitButton.classList.add('popup__button_disabled');
+
     openPopup(popupEditNewPlace);
 }
 
@@ -97,9 +104,6 @@ function submitNewPlaceForm(event) {
     event.preventDefault();
     cardsArray.prepend(createCard(placeNameOnForm.value, placeUrlOnForm.value));
     closePopup(popupEditNewPlace);
-
-    placeNameOnForm.value = '';
-    placeUrlOnForm.value = '';
 }
 
 
