@@ -1,5 +1,4 @@
 export class Card {
-
     constructor(name, link, cardSelector) {
         this._cardSelector = cardSelector;
         this._name = name;
@@ -61,5 +60,4 @@ export class Card {
     _toggleLikeEvent(event) {
         event.target.classList.toggle('card__like_active')
     }
-
 }

@@ -1,5 +1,3 @@
-
-
 function closePopupOnOverlay(event) {
     if (event.target.classList.contains('popup')) {
         closePopup(event.target);
@@ -12,7 +10,6 @@ function closePopupOnEsc(event) {
         closePopup(openPopup);
     }
 }
-
 
 export function openPopup(popupWindow) {
     popupWindow.classList.add('popup_opened')

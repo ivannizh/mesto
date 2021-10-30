@@ -1,5 +1,6 @@
 import {Card} from "./Card.js";
-import {openPopup, closePopup} from "./utils.js";
+import {closePopup, openPopup} from "./utils.js";
+import {FormValidator} from "./FormValidator.js";
 
 const popupEditProfileOpenBtn = document.querySelector('.profile__edit-button')
 const popupEditProfile = document.querySelector('.popup_type_profile-edit')
@@ -17,8 +18,17 @@ const inputUserOccupation = popupEditProfile.querySelector('.popup__input_type_o
 const placeNameOnForm = popupEditNewPlace.querySelector('.popup__input_type_place-name')
 const placeUrlOnForm = popupEditNewPlace.querySelector('.popup__input_type_place-url')
 
+const formsValidationObjects = []
 
 const cardsArray = document.querySelector('.cards')
+const validationConfig = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+};
 
 
 function renderInitialCards() {
@@ -26,7 +36,6 @@ function renderInitialCards() {
         cardsArray.append((new Card(item.name, item.link, '#card')).generateCard())
     })
 }
-
 renderInitialCards()
 
 function closePopupEvent(event) {
@@ -72,6 +81,16 @@ function submitNewPlaceForm(event) {
     cardsArray.prepend((new Card(placeNameOnForm.value, placeUrlOnForm.value, '#card')).generateCard());
     closePopup(popupEditNewPlace);
 }
+
+const enableFormValidation = () => {
+    const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
+    formList.forEach((formElement) => {
+        const formValidator = new FormValidator(validationConfig, formElement)
+        formValidator.enableValidation()
+        formsValidationObjects.push(formValidator)
+    });
+};
+enableFormValidation();
 
 popupEditProfileOpenBtn.addEventListener('click', openPopupEditForm);
 popupNewPlaceOpenBtn.addEventListener('click', openPopupNewPlace);
