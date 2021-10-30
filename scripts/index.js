@@ -1,6 +1,6 @@
-import {Card} from "./Card.js";
-import {closePopup, openPopup} from "./utils.js";
-import {FormValidator} from "./FormValidator.js";
+import { Card } from "./Card.js";
+import { closePopup, openPopup } from "./utils.js";
+import { FormValidator } from "./FormValidator.js";
 
 const popupEditProfileOpenBtn = document.querySelector('.profile__edit-button')
 const popupEditProfile = document.querySelector('.popup_type_profile-edit')
@@ -32,7 +32,7 @@ const validationConfig = {
 
 
 function renderInitialCards() {
-    initialCards.forEach(function (item) {
+    initialCards.forEach(function(item) {
         cardsArray.append((new Card(item.name, item.link, '#card')).generateCard())
     })
 }
@@ -96,6 +96,6 @@ popupEditProfileOpenBtn.addEventListener('click', openPopupEditForm);
 popupNewPlaceOpenBtn.addEventListener('click', openPopupNewPlace);
 popupEditProfileForm.addEventListener('submit', submitEditProfileForm);
 popupNewPlaceForm.addEventListener('submit', submitNewPlaceForm);
-popupCloseBtns.forEach(function (btn) {
+popupCloseBtns.forEach(function(btn) {
     btn.addEventListener('click', closePopupEvent);
 })
