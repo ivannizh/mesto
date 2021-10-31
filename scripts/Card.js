@@ -1,3 +1,5 @@
+import {openPopup} from "./utils.js";
+
 export class Card {
     constructor(name, link, cardSelector) {
         this._cardSelector = cardSelector;
@@ -34,17 +36,13 @@ export class Card {
     _setEventListeners() {
         this._element.querySelector('.card__delete').addEventListener('click', this._deleteCardEvent);
         this._element.querySelector('.card__like').addEventListener('click', this._toggleLikeEvent);
-        this._element.querySelector('.card__img').addEventListener('click', this._openImagePopup);
+        this._element.querySelector('.card__img').addEventListener('click', () => {this._openImagePopup()});
     }
 
-    _openImagePopup(event) {
-        const caption = event.target.closest('.card').querySelector('.card__title').textContent
-        const alt = event.target.getAttribute('alt')
-        const src = event.target.getAttribute('src')
-
-        this._popupImageImage.setAttribute('src', src);
-        this._popupImageImage.setAttribute('alt', alt);
-        this._popupImage.querySelector('.popup__image-caption').textContent = caption;
+    _openImagePopup() {
+        this._popupImageImage.setAttribute('src', this._link);
+        this._popupImageImage.setAttribute('alt', this._name);
+        this._popupImage.querySelector('.popup__image-caption').textContent = this._name;
 
         openPopup(this._popupImage);
     }
