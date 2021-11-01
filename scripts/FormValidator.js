@@ -71,4 +71,8 @@ export class FormValidator {
         });
         this._setEventListeners();
     }
+    disableSubmitBtn() {
+        this._buttonElement.setAttribute('disabled', true)
+        this._buttonElement.classList.add('popup__button_disabled');
+    }
 }

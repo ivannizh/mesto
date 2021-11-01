@@ -1,6 +1,6 @@
-import { Card } from "./Card.js";
-import { closePopup, openPopup } from "./utils.js";
-import { FormValidator } from "./FormValidator.js";
+import {Card} from "./Card.js";
+import {closePopup, openPopup} from "./utils.js";
+import {FormValidator} from "./FormValidator.js";
 
 const popupEditProfileOpenBtn = document.querySelector('.profile__edit-button')
 const popupEditProfile = document.querySelector('.popup_type_profile-edit')
@@ -10,7 +10,6 @@ const popupCloseBtns = document.querySelectorAll('.popup__close')
 const popupNewPlaceOpenBtn = document.querySelector('.profile__add-new-place')
 const popupEditNewPlace = document.querySelector('.popup_type_new-place')
 const popupNewPlaceForm = popupEditNewPlace.querySelector('.popup__form')
-const popupNewPlaceSubmitButton = popupNewPlaceForm.querySelector('.popup__button')
 const userName = document.querySelector('.profile__name')
 const userOccupation = document.querySelector('.profile__occupation')
 const inputUserName = popupEditProfile.querySelector('.popup__input_type_name')
@@ -18,7 +17,9 @@ const inputUserOccupation = popupEditProfile.querySelector('.popup__input_type_o
 const placeNameOnForm = popupEditNewPlace.querySelector('.popup__input_type_place-name')
 const placeUrlOnForm = popupEditNewPlace.querySelector('.popup__input_type_place-url')
 
-const formsValidationObjects = []
+
+let changeProfileFormValidation = undefined
+let newPlaceFormValidation = undefined
 
 const cardsArray = document.querySelector('.cards')
 const validationConfig = {
@@ -30,12 +31,16 @@ const validationConfig = {
     errorClass: 'popup__error_visible'
 };
 
+function createCard(item) {
+    return (new Card(item.name, item.link, '#card')).generateCard()
+}
 
 function renderInitialCards() {
-    initialCards.forEach(function(item) {
-        cardsArray.append((new Card(item.name, item.link, '#card')).generateCard())
+    initialCards.forEach(function (item) {
+        cardsArray.append(createCard(item))
     })
 }
+
 renderInitialCards()
 
 function closePopupEvent(event) {
@@ -61,8 +66,7 @@ function openPopupNewPlace() {
     placeNameOnForm.value = '';
     placeUrlOnForm.value = '';
 
-    popupNewPlaceSubmitButton.setAttribute('disabled', true)
-    popupNewPlaceSubmitButton.classList.add('popup__button_disabled');
+    newPlaceFormValidation.disableSubmitBtn()
 
     openPopup(popupEditNewPlace);
 }
@@ -78,17 +82,20 @@ function submitEditProfileForm(event) {
 
 function submitNewPlaceForm(event) {
     event.preventDefault();
-    cardsArray.prepend((new Card(placeNameOnForm.value, placeUrlOnForm.value, '#card')).generateCard());
+    const item = {
+        name: placeNameOnForm.value,
+        link: placeUrlOnForm.value,
+    }
+    cardsArray.prepend(createCard(item));
     closePopup(popupEditNewPlace);
 }
 
 const enableFormValidation = () => {
-    const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
-    formList.forEach((formElement) => {
-        const formValidator = new FormValidator(validationConfig, formElement)
-        formValidator.enableValidation()
-        formsValidationObjects.push(formValidator)
-    });
+    changeProfileFormValidation = new FormValidator(validationConfig, popupEditProfileForm)
+    changeProfileFormValidation.enableValidation()
+
+    newPlaceFormValidation = new FormValidator(validationConfig, popupNewPlaceForm)
+    newPlaceFormValidation.enableValidation()
 };
 enableFormValidation();
 
@@ -96,6 +103,6 @@ popupEditProfileOpenBtn.addEventListener('click', openPopupEditForm);
 popupNewPlaceOpenBtn.addEventListener('click', openPopupNewPlace);
 popupEditProfileForm.addEventListener('submit', submitEditProfileForm);
 popupNewPlaceForm.addEventListener('submit', submitNewPlaceForm);
-popupCloseBtns.forEach(function(btn) {
+popupCloseBtns.forEach(function (btn) {
     btn.addEventListener('click', closePopupEvent);
 })
