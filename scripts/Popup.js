@@ -6,8 +6,7 @@ export class Popup {
     open() {
         this._container.classList.add('popup_opened')
 
-        this._container.addEventListener('click', closePopupOnOverlay);
-        document.addEventListener('keydown', closePopupOnEsc);
+
     }
 
 
@@ -33,6 +32,9 @@ export class Popup {
         // который добавляет слушатель клика иконке закрытия попапа. Модальное окно также закрывается при клике на затемнённую область вокруг формы.
         const closeBtn = this._container.querySelector('.popup__close')
         closeBtn.addEventListener('click', this.close.bind(this));
+
+        this._container.addEventListener('click', this._handleOverlayClose.bind(this));
+        document.addEventListener('keydown', this._handleEscClose.bind(this));
     }
 }
 

@@ -1,10 +1,11 @@
-import {openPopup} from "./utils.js";
+// import {openPopup} from "./utils.js";
 
 export class Card {
-    constructor(name, link, cardSelector) {
-        this._cardSelector = cardSelector;
-        this._name = name;
-        this._link = link;
+    constructor( data, handleCardClick) {
+        this._cardSelector = data.cardSelector;
+        this._name = data.name;
+        this._link = data.link;
+        this._handleCardClick = handleCardClick;
 
         this._popupImage = document.querySelector('.popup_type_image')
         this._popupImageImage = this._popupImage.querySelector('.popup__image')
@@ -37,18 +38,24 @@ export class Card {
     }
 
     _setEventListeners() {
-        this._element.querySelector('.card__delete').addEventListener('click', () => {this._deleteCardEvent()});
-        this._element.querySelector('.card__like').addEventListener('click', () => {this._toggleLikeEvent()});
-        this._element.querySelector('.card__img').addEventListener('click', () => {this._openImagePopup()});
+        this._element.querySelector('.card__delete').addEventListener('click', () => {
+            this._deleteCardEvent()
+        });
+        this._element.querySelector('.card__like').addEventListener('click', () => {
+            this._toggleLikeEvent()
+        });
+        this._element.querySelector('.card__img').addEventListener('click', () => {
+            this._handleCardClick(this._link, this._name)
+        });
     }
 
-    _openImagePopup() {
-        this._popupImageImage.setAttribute('src', this._link);
-        this._popupImageImage.setAttribute('alt', this._name);
-        this._popupImage.querySelector('.popup__image-caption').textContent = this._name;
-
-        openPopup(this._popupImage);
-    }
+    // _openImagePopup() {
+    //     this._popupImageImage.setAttribute('src', this._link);
+    //     this._popupImageImage.setAttribute('alt', this._name);
+    //     this._popupImage.querySelector('.popup__image-caption').textContent = this._name;
+    //
+    //     openPopup(this._popupImage);
+    // }
 
     _deleteCardEvent() {
         this._element.querySelector('.card__delete').removeEventListener('click', this._deleteCardEvent);

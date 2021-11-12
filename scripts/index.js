@@ -1,7 +1,10 @@
 import {Card} from "./Card.js";
-import {closePopup, openPopup} from "./utils.js";
+// import {closePopup, openPopup} from "./utils.js";
 import {FormValidator} from "./FormValidator.js";
 import Section from "./Section.js";
+import {PopupWithImage} from "./PopupWithImage.js";
+
+const popupPhotosSelector = '.popup_type_image';
 
 const popupEditProfileOpenBtn = document.querySelector('.profile__edit-button')
 const popupEditProfile = document.querySelector('.popup_type_profile-edit')
@@ -17,9 +20,12 @@ const inputUserName = popupEditProfile.querySelector('.popup__input_type_name')
 const inputUserOccupation = popupEditProfile.querySelector('.popup__input_type_occupation')
 const placeNameOnForm = popupEditNewPlace.querySelector('.popup__input_type_place-name')
 const placeUrlOnForm = popupEditNewPlace.querySelector('.popup__input_type_place-url')
+
+const photoPopup = new PopupWithImage(popupPhotosSelector);
+
 const sectionRenderer = new Section({
     items: initialCards,
-    renderer: (item) => (new Card(item.name, item.link, '#card')).generateCard()
+    renderer: (item) => (new Card({name: item.name, link:item.link, cardSelector:'#card'}, photoPopup.open)).generateCard()
 }, '.cards')
 
 let changeProfileFormValidation = undefined
@@ -36,9 +42,9 @@ const validationConfig = {
 
 sectionRenderer.renderItems();
 
-function closePopupEvent(event) {
-    closePopup(event.target.closest('.popup'));
-}
+// function closePopupEvent(event) {
+//     closePopup(event.target.closest('.popup'));
+// }
 
 function openPopupEditForm() {
     inputUserName.value = userName.textContent;
@@ -52,7 +58,7 @@ function openPopupEditForm() {
     inputUserName.dispatchEvent(event);
     inputUserOccupation.dispatchEvent(event);
 
-    openPopup(popupEditProfile);
+    // openPopup(popupEditProfile);
 }
 
 function openPopupNewPlace() {
@@ -61,7 +67,7 @@ function openPopupNewPlace() {
 
     newPlaceFormValidation.disableSubmitBtn()
 
-    openPopup(popupEditNewPlace);
+    // openPopup(popupEditNewPlace);
 }
 
 function submitEditProfileForm(event) {
@@ -70,7 +76,7 @@ function submitEditProfileForm(event) {
     userName.textContent = inputUserName.value;
     userOccupation.textContent = inputUserOccupation.value;
 
-    closePopup(popupEditProfile);
+    // closePopup(popupEditProfile);
 }
 
 function submitNewPlaceForm(event) {
@@ -80,7 +86,7 @@ function submitNewPlaceForm(event) {
         link: placeUrlOnForm.value,
     }
     sectionRenderer.addItem(item);
-    closePopup(popupEditNewPlace);
+    // closePopup(popupEditNewPlace);
 }
 
 const enableFormValidation = () => {
