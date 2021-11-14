@@ -22,10 +22,11 @@ const placeNameOnForm = popupEditNewPlace.querySelector('.popup__input_type_plac
 const placeUrlOnForm = popupEditNewPlace.querySelector('.popup__input_type_place-url')
 
 const photoPopup = new PopupWithImage(popupPhotosSelector);
+photoPopup.setEventListeners()
 
 const sectionRenderer = new Section({
     items: initialCards,
-    renderer: (item) => (new Card({name: item.name, link:item.link, cardSelector:'#card'}, photoPopup.open)).generateCard()
+    renderer: (item) => (new Card({name: item.name, link:item.link, cardSelector:'#card'}, photoPopup.open.bind(photoPopup))).generateCard()
 }, '.cards')
 
 let changeProfileFormValidation = undefined
