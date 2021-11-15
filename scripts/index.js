@@ -1,8 +1,9 @@
-import {Card} from "./Card.js";
-import {FormValidator} from "./FormValidator.js";
-import Section from "./Section.js";
-import {PopupWithImage} from "./PopupWithImage.js";
-import {PopupWithForm} from "./PopupWithForm.js";
+import {Card} from "../src/components/Card.js";
+import {FormValidator} from "../src/components/FormValidator.js";
+import {Section} from "../src/components/Section.js";
+import {PopupWithImage} from "../src/components/PopupWithImage.js";
+import {PopupWithForm} from "../src/components/PopupWithForm.js";
+import {UserInfo} from "../src/components/UserInfo.js";
 
 const popupEditProfileOpenBtn = document.querySelector('.profile__edit-button')
 const popupEditProfile = document.querySelector('.popup_type_profile-edit')
@@ -11,8 +12,7 @@ const popupEditProfileForm = popupEditProfile.querySelector('.popup__form')
 const popupNewPlaceOpenBtn = document.querySelector('.profile__add-new-place')
 const popupEditNewPlace = document.querySelector('.popup_type_new-place')
 const popupNewPlaceForm = popupEditNewPlace.querySelector('.popup__form')
-const userName = document.querySelector('.profile__name')
-const userOccupation = document.querySelector('.profile__occupation')
+
 const inputUserName = popupEditProfile.querySelector('.popup__input_type_name')
 const inputUserOccupation = popupEditProfile.querySelector('.popup__input_type_occupation')
 const placeNameOnForm = popupEditNewPlace.querySelector('.popup__input_type_place-name')
@@ -28,21 +28,23 @@ const sectionRenderer = new Section({
 }, '.cards')
 
 
-
 const photoPopup = new PopupWithImage('.popup_type_image');
 photoPopup.setEventListeners()
 
+const userInfo = new UserInfo({
+    name: 'Жак-Ив Кусто',
+    occupation: 'Исследователь океана',
+})
+
 const editProfileForm = new PopupWithForm('.popup_type_profile-edit', (data) => {
-    userName.textContent = data.name;
-    userOccupation.textContent = data.occupation;
+    userInfo.setUserInfo(data);
 })
 
 editProfileForm.setEventListeners();
-const newPlaceForm = new PopupWithForm('.popup_type_new-place', (event) => {
-    event.preventDefault();
+const newPlaceForm = new PopupWithForm('.popup_type_new-place', (data) => {
     const item = {
-        name: placeNameOnForm.value,
-        link: placeUrlOnForm.value,
+        name: data.place_name,
+        link: data.place_url,
     }
     sectionRenderer.addItem(item);
 })
@@ -64,8 +66,9 @@ sectionRenderer.renderItems();
 
 
 function openPopupEditForm() {
-    inputUserName.value = userName.textContent;
-    inputUserOccupation.value = userOccupation.textContent;
+    const data = userInfo.getUserInfo()
+    inputUserName.value = data.name;
+    inputUserOccupation.value = data.occupation;
 
     const event = new Event('input', {
         bubbles: true,
