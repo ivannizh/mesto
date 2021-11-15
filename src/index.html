@@ -7,16 +7,15 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
     <title>Mesto</title>
-    <link href="./pages/index.css" rel="stylesheet">
 </head>
 
 <body class="page">
     <header class="header">
-        <img alt="Лого место" class="header__logo" src="images/logo.png">
+        <img alt="Лого место" class="header__logo" src="<%=require('./images/logo.png')%>">
     </header>
     <main class="main page__container">
         <section class="profile">
-            <img alt="Аватар профиля" class="profile__avatar" src="images/profile_avatar.jpg">
+            <img alt="Аватар профиля" class="profile__avatar" src="<%=require('./images/profile_avatar.jpg')%>">
             <div class="profile__info">
                 <div class="profile__edit">
                     <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -76,15 +75,6 @@
             </div>
         </div>
     </template>
-    <script src="scripts/initial-сards.js"></script>
-    <script src="src/components/Popup.js" type="module"></script>
-    <script src="src/components/PopupWithForm.js" type="module"></script>
-    <script src="src/components/PopupWithImage.js" type="module"></script>
-    <script src="src/components/Section.js" type="module"></script>
-    <script src="src/components/Card.js" type="module"></script>
-    <script src="src/components/FormValidator.js" type="module"></script>
-    <script src="scripts/utils.js" type="module"></script>
-    <script src="scripts/index.js" type="module"></script>
 </body>
 
 </html>
