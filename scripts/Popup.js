@@ -2,6 +2,8 @@ export class Popup {
     constructor(selector) {
         this._container = document.querySelector(selector);
         this._closeBtn = this._container.querySelector('.popup__close')
+
+        // debugger
     }
 
     open() {
@@ -11,7 +13,7 @@ export class Popup {
 
 
     close() {
-        debugger
+        // debugger
         this._container.classList.remove('popup_opened')
 
         this._container.removeEventListener('click', this._handleOverlayClose);
@@ -25,7 +27,7 @@ export class Popup {
         }
     }
     _handleOverlayClose(event) {
-        debugger
+        // debugger
         if (event.target.classList.contains('popup')) {
             this.close();
         }

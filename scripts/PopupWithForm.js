@@ -3,17 +3,32 @@ import {Popup} from "./Popup.js";
 export class PopupWithForm extends Popup {
     constructor(selector, submitCallback) {
         super(selector);
+
+        this._form = this._container.querySelector('.popup__form')
+        this._submitCallback = submitCallback;
+        this._all_inputs = this._form.querySelectorAll('.popup__input');
     }
 
     _getInputValues() {
-
+        const data = {};
+        this._all_inputs.forEach(input => {
+            data[input.name] = input.value;
+        })
+        return data;
     }
 
     setEventListeners() {
-        // Метод setEventListeners класса PopupWithForm должен не только добавлять обработчик клика иконке закрытия, но и добавлять обработчик сабмита формы.
+        this._form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const data = this._getInputValues();
+            this._submitCallback(data);
+            this.close();
+        });
+        super.setEventListeners()
     }
 
     close() {
-        // так как при закрытии попапа форма должна ещё и сбрасываться.
+        this._form.reset();
+        super.close()
     }
 }
