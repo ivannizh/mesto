@@ -1,6 +1,6 @@
 export class UserInfo {
 
-    constructor({name, occupation}) {
+    constructor({ name, occupation }) {
         this._name = name;
         this._occupation = occupation;
 
