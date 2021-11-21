@@ -15,13 +15,13 @@
 </header>
 <main class="main page__container">
     <section class="profile">
-        <img alt="Аватар профиля" class="profile__avatar" src="<%=require('./images/profile_avatar.jpg')%>">
+        <img alt="Аватар профиля" class="profile__avatar">
         <div class="profile__info">
             <div class="profile__edit">
-                <h1 class="profile__name">Жак-Ив Кусто</h1>
+                <h1 class="profile__name"></h1>
                 <button aria-label="редактировать" class="profile__edit-button" type="button"></button>
             </div>
-            <p class="profile__occupation">Исследователь океана</p>
+            <p class="profile__about"></p>
         </div>
         <button aria-label="добавить" class="profile__add-new-place" type="button"></button>
     </section>
@@ -40,9 +40,9 @@
             <input class="popup__input popup__input_type_name" id="name-input" maxlength="40" minlength="2"
                    name="name" placeholder="Имя и фамилия" required type="text">
             <span class="popup__input-error name-input-error"></span>
-            <input class="popup__input popup__input_type_occupation" id="occupation-input" maxlength="200"
-                   minlength="2" name="occupation" placeholder="Род деятельности" required type="text">
-            <span class="popup__input-error occupation-input-error"></span>
+            <input class="popup__input popup__input_type_about" id="about-input" maxlength="200"
+                   minlength="2" name="about" placeholder="Род деятельности" required type="text">
+            <span class="popup__input-error about-input-error"></span>
             <button class="popup__button" type="submit">Сохранить</button>
         </form>
     </div>

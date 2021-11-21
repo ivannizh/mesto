@@ -6,10 +6,10 @@ import { Section } from "./components/Section.js";
 import { PopupWithImage } from "./components/PopupWithImage.js";
 import { PopupWithForm } from "./components/PopupWithForm.js";
 import { UserInfo } from "./components/UserInfo.js";
-import { initialCards } from "./scripts/initial-сards.js";
+
 import {
   inputUserName,
-  inputUserOccupation,
+  inputUserabout,
   placeNameOnForm,
   placeUrlOnForm,
   popupEditProfileForm,
@@ -17,46 +17,48 @@ import {
   popupNewPlaceForm,
   popupNewPlaceOpenBtn,
 } from "./scripts/constants";
+import {Api} from "./components/Api";
+
+const api = new Api(
+  'https://mesto.nomoreparties.co/v1/cohort-30',
+    '8a0021df-e451-4ea1-9a4d-dab486c52595'
+)
 
 const sectionRenderer = new Section(
-  {
-    items: initialCards,
-    renderer: (item) =>
+    api.getCards(),
+     (item) =>
       new Card(
-        {
-          name: item.name,
-          link: item.link,
-          cardSelector: "#card",
-        },
+        item,
+          "#card",
         photoPopup.open.bind(photoPopup)
       ).generateCard(),
-  },
+
   ".cards"
 );
 
 const photoPopup = new PopupWithImage(".popup_type_image");
 photoPopup.setEventListeners();
 
-const userInfo = new UserInfo({
-  name: "Жак-Ив Кусто",
-  occupation: "Исследователь океана",
-});
+const userInfo = new UserInfo(api.getUserInfo());
 
 const editProfileForm = new PopupWithForm(
   ".popup_type_profile-edit",
   (data) => {
-    userInfo.setUserInfo(data);
+      api.updateUserInfo(data).then(
+          res => userInfo.setUserInfo(res)
+      )
   }
 );
 
 editProfileForm.setEventListeners();
 const newPlaceForm = new PopupWithForm(".popup_type_new-place", (data) => {
-  const item = {
-    name: data.place_name,
-    link: data.place_url,
-  };
-  sectionRenderer.addItem(item);
+
+    api.addNewCard({
+        name: data.place_name,
+        link: data.place_url,
+    }).then(res => sectionRenderer.addItem(res)).catch(err => console.log(err))
 });
+
 newPlaceForm.setEventListeners();
 
 let changeProfileFormValidation = undefined;
@@ -71,12 +73,10 @@ const validationConfig = {
   errorClass: "popup__error_visible",
 };
 
-sectionRenderer.renderItems();
-
 function openPopupEditForm() {
   const data = userInfo.getUserInfo();
   inputUserName.value = data.name;
-  inputUserOccupation.value = data.occupation;
+  inputUserabout.value = data.about;
 
   const event = new Event("input", {
     bubbles: true,
@@ -84,7 +84,7 @@ function openPopupEditForm() {
   });
 
   inputUserName.dispatchEvent(event);
-  inputUserOccupation.dispatchEvent(event);
+  inputUserabout.dispatchEvent(event);
 
   editProfileForm.open();
 }

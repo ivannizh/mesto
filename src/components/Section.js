@@ -1,14 +1,25 @@
+import {iterator} from "core-js/stable/dom-collections";
+
 export class Section {
-  constructor({ items, renderer }, selector) {
-    this._renderedItems = items;
+  constructor(renderedPromise, renderer, selector) {
+    this._renderedItems = []
     this._renderer = renderer;
+
+    renderedPromise.then(
+        data => {
+          this._renderedItems = data;
+          this._renderItems();
+        }
+    ).catch(err => console.log(err))
 
     this._container = document.querySelector(selector);
   }
 
-  renderItems() {
+  _renderItems() {
     this._renderedItems.forEach((item) =>
-      this._container.append(this._renderer(item))
+
+          this._container.append(this._renderer(item))
+
     );
   }
 
