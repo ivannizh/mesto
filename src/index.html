@@ -62,6 +62,13 @@
         </form>
     </div>
 </div>
+<div class="popup popup_type_submit">
+    <div class="popup__container">
+        <button aria-label="закрыть" class="popup__close" type="button"></button>
+        <h2 class="popup__title popup__title21312312">Вы уверены?</h2>
+        <button class="popup__button" type="submit">Да</button>
+    </div>
+</div>
 <div class="popup popup_type_image">
     <div class="popup__image-container">
         <button aria-label="закрыть" class="popup__close" type="button"></button>
@@ -75,7 +82,10 @@
         <button aria-label="удалить" class="card__delete" type="button"></button>
         <div class="card__caption">
             <h2 class="card__title"></h2>
-            <button aria-label="оценить" class="card__like" type="button"></button>
+            <div class="card__like-group">
+                <button aria-label="оценить" class="card__like" type="button"></button>
+                <p class="card__like-counts"></p>
+            </div>
         </div>
     </div>
 </template>

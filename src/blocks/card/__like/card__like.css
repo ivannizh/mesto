@@ -5,10 +5,10 @@
     background-position: center;
     border: none;
     background-color: #FFFFFF;
-    height: 23px;
-    width: 23px;
+    height: 19px;
+    width: 22px;
     padding: 0;
-    margin: 0;
+    margin: 0 0 6px;
     transition-property: opacity;
     transition-duration: 0.5s;
 }

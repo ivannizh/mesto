@@ -33,6 +33,9 @@ export class Card {
 
     this._like = this._element.querySelector(".card__like");
     this._img = this._element.querySelector(".card__img");
+    this._likesCounter = this._element.querySelector(".card__like-counts");
+
+    this._likesCounter.textContent = this._likes.length
 
     return this._element;
   }
