@@ -1,13 +1,16 @@
 export class UserInfo {
-  constructor(dataPromise) {
+  constructor(dataPromise, sectionRenderer) {
     this._name = '';
     this._about = '';
     this._avaterURL = '';
+    this._sectionRenderer = sectionRenderer;
 
     dataPromise.then(data => {
       console.log(data)
       this.setUserInfo(data);
       this.setUserAvatar(data.avatar);
+
+      this._sectionRenderer.
     }).catch(err => {
       console.log(err)
     })

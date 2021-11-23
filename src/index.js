@@ -1,53 +1,59 @@
 import "./styles/index.css";
 
-import { Card } from "./components/Card.js";
-import { FormValidator } from "./components/FormValidator.js";
-import { Section } from "./components/Section.js";
-import { PopupWithImage } from "./components/PopupWithImage.js";
-import { PopupWithForm } from "./components/PopupWithForm.js";
-import { UserInfo } from "./components/UserInfo.js";
+import {Card} from "./components/Card.js";
+import {FormValidator} from "./components/FormValidator.js";
+import {Section} from "./components/Section.js";
+import {PopupWithImage} from "./components/PopupWithImage.js";
+import {PopupWithForm} from "./components/PopupWithForm.js";
+import {UserInfo} from "./components/UserInfo.js";
 
 import {
-  inputUserName,
-  inputUserabout,
-  placeNameOnForm,
-  placeUrlOnForm,
-  popupEditProfileForm,
-  popupEditProfileOpenBtn,
-  popupNewPlaceForm,
-  popupNewPlaceOpenBtn,
+    inputUserabout,
+    inputUserName,
+    placeNameOnForm,
+    placeUrlOnForm,
+    popupEditProfileForm,
+    popupEditProfileOpenBtn,
+    popupNewPlaceForm,
+    popupNewPlaceOpenBtn,
 } from "./scripts/constants";
 import {Api} from "./components/Api";
+import {PopupWithSubmit} from "./components/PopupWithSubmit.js";
 
 const api = new Api(
-  'https://mesto.nomoreparties.co/v1/cohort-30',
+    'https://mesto.nomoreparties.co/v1/cohort-30',
     '8a0021df-e451-4ea1-9a4d-dab486c52595'
 )
 
+const submitPopup = new PopupWithSubmit(".popup_type_submit");
+submitPopup.setEventListeners();
+
 const sectionRenderer = new Section(
     api.getCards(),
-     (item) =>
-      new Card(
-        item,
-          "#card",
-        photoPopup.open.bind(photoPopup)
-      ).generateCard(),
+    (item) =>
+        new Card(
+            item,
+            "#card",
+            photoPopup.open.bind(photoPopup),
+            submitPopup
+        ).generateCard(),
 
-  ".cards"
+    ".cards"
 );
 
 const photoPopup = new PopupWithImage(".popup_type_image");
 photoPopup.setEventListeners();
 
-const userInfo = new UserInfo(api.getUserInfo());
+
+const userInfo = new UserInfo(api.getUserInfo(), sectionRenderer);
 
 const editProfileForm = new PopupWithForm(
-  ".popup_type_profile-edit",
-  (data) => {
-      api.updateUserInfo(data).then(
-          res => userInfo.setUserInfo(res)
-      )
-  }
+    ".popup_type_profile-edit",
+    (data) => {
+        api.updateUserInfo(data).then(
+            res => userInfo.setUserInfo(res)
+        )
+    }
 );
 
 editProfileForm.setEventListeners();
@@ -65,50 +71,50 @@ let changeProfileFormValidation = undefined;
 let newPlaceFormValidation = undefined;
 
 const validationConfig = {
-  formSelector: ".popup__form",
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__button",
-  inactiveButtonClass: "popup__button_disabled",
-  inputErrorClass: "popup__input_type_error",
-  errorClass: "popup__error_visible",
+    formSelector: ".popup__form",
+    inputSelector: ".popup__input",
+    submitButtonSelector: ".popup__button",
+    inactiveButtonClass: "popup__button_disabled",
+    inputErrorClass: "popup__input_type_error",
+    errorClass: "popup__error_visible",
 };
 
 function openPopupEditForm() {
-  const data = userInfo.getUserInfo();
-  inputUserName.value = data.name;
-  inputUserabout.value = data.about;
+    const data = userInfo.getUserInfo();
+    inputUserName.value = data.name;
+    inputUserabout.value = data.about;
 
-  const event = new Event("input", {
-    bubbles: true,
-    cancelable: true,
-  });
+    const event = new Event("input", {
+        bubbles: true,
+        cancelable: true,
+    });
 
-  inputUserName.dispatchEvent(event);
-  inputUserabout.dispatchEvent(event);
+    inputUserName.dispatchEvent(event);
+    inputUserabout.dispatchEvent(event);
 
-  editProfileForm.open();
+    editProfileForm.open();
 }
 
 function openPopupNewPlace() {
-  placeNameOnForm.value = "";
-  placeUrlOnForm.value = "";
+    placeNameOnForm.value = "";
+    placeUrlOnForm.value = "";
 
-  newPlaceFormValidation.disableSubmitBtn();
-  newPlaceForm.open();
+    newPlaceFormValidation.disableSubmitBtn();
+    newPlaceForm.open();
 }
 
 const enableFormValidation = () => {
-  changeProfileFormValidation = new FormValidator(
-    validationConfig,
-    popupEditProfileForm
-  );
-  changeProfileFormValidation.enableValidation();
+    changeProfileFormValidation = new FormValidator(
+        validationConfig,
+        popupEditProfileForm
+    );
+    changeProfileFormValidation.enableValidation();
 
-  newPlaceFormValidation = new FormValidator(
-    validationConfig,
-    popupNewPlaceForm
-  );
-  newPlaceFormValidation.enableValidation();
+    newPlaceFormValidation = new FormValidator(
+        validationConfig,
+        popupNewPlaceForm
+    );
+    newPlaceFormValidation.enableValidation();
 };
 enableFormValidation();
 

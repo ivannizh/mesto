@@ -5,6 +5,8 @@
 @import url(__caption/card__caption.css);
 @import url(__like-counts/card__like-counts.css);
 @import url(__like-group/card__like-group.css);
+@import url(__delete/card__delete.css);
+@import url(__delete/_active/card__delete_active.css);
 
 .card {
     background-color: #FFFFFF;

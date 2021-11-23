@@ -1,5 +1,5 @@
 export class Card {
-  constructor(data, cardSelector, handleCardClick) {
+  constructor(data, cardSelector, handleCardClick, submitPopup) {
     this._cardSelector = cardSelector;
 
     this._id = data._id;
@@ -8,6 +8,7 @@ export class Card {
     this._name = data.name;
     this._link = data.link;
     this._handleCardClick = handleCardClick;
+    this._submitPopup = submitPopup;
 
     this._popupImage = document.querySelector(".popup_type_image");
 
@@ -34,6 +35,7 @@ export class Card {
     this._like = this._element.querySelector(".card__like");
     this._img = this._element.querySelector(".card__img");
     this._likesCounter = this._element.querySelector(".card__like-counts");
+    this._deleteIcon = this._element.querySelector(".card__delete");
 
     this._likesCounter.textContent = this._likes.length
 
@@ -44,7 +46,10 @@ export class Card {
     this._element
       .querySelector(".card__delete")
       .addEventListener("click", () => {
-        this._deleteCardEvent();
+        this._submitPopup.setSubmitCallback(() => {
+          this._deleteCardEvent();
+        })
+        this._submitPopup.open();
       });
     this._element.querySelector(".card__like").addEventListener("click", () => {
       this._toggleLikeEvent();
@@ -64,5 +69,11 @@ export class Card {
 
   _toggleLikeEvent() {
     this._like.classList.toggle("card__like_active");
+  }
+
+  updateDelete(currentUserId) {
+    if (this._owner._id === currentUserId) {
+      this._deleteIcon.classList.add('_deleteIcon');
+    }
   }
 }

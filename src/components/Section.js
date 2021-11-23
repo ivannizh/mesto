@@ -7,6 +7,7 @@ export class Section {
 
     renderedPromise.then(
         data => {
+          debugger
           this._renderedItems = data;
           this._renderItems();
         }
@@ -21,6 +22,10 @@ export class Section {
           this._container.append(this._renderer(item))
 
     );
+  }
+
+  updateDelete(currentUserId) {
+      this._renderedItems.forEach(card => card.updateDelete(currentUserId))
   }
 
   addItem(item) {
