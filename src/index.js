@@ -28,24 +28,36 @@ const api = new Api(
 const submitPopup = new PopupWithSubmit(".popup_type_submit");
 submitPopup.setEventListeners();
 
-const sectionRenderer = new Section(
-    api.getCards(),
-    (item) =>
-        new Card(
-            item,
-            "#card",
-            photoPopup.open.bind(photoPopup),
-            submitPopup
-        ).generateCard(),
+const getUserInfoPromise = api.getUserInfo();
+const getCardsPromise = api.getCards();
 
-    ".cards"
-);
+const userInfo = new UserInfo(getUserInfoPromise);
 
 const photoPopup = new PopupWithImage(".popup_type_image");
 photoPopup.setEventListeners();
 
 
-const userInfo = new UserInfo(api.getUserInfo(), sectionRenderer);
+const sectionRenderer = new Section(
+    getCardsPromise,
+    (item) =>
+        new Card(
+            item,
+            "#card",
+            {
+                imgClickHandler: (name, link) => {
+                    photoPopup.open(name, link);
+                },
+                likeCardHandler: '',
+                deleteCardHandler: '',
+            },
+        ).generateCard(),
+    ".cards"
+);
+
+// Promise.all([getUserInfoPromise, getCardsPromise]).then(() => {
+//     sectionRenderer.updateDelete(userInfo.getUserInfo()._id);
+// })
+
 
 const editProfileForm = new PopupWithForm(
     ".popup_type_profile-edit",
