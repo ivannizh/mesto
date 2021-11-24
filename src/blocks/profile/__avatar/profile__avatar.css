@@ -6,6 +6,14 @@
     margin-right: 30px;
 }
 
+/*.profile__avatar:hover {*/
+/*    opacity: 0.2;*/
+/*}*/
+
+/*.profile__avatar-edit:hover + .profile__avatar{*/
+/*    opacity: 0.2;*/
+/*}*/
+
 @media screen and (max-width: 920px) {
     .profile__avatar {
         margin: 0 0 26px;

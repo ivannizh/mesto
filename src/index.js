@@ -16,10 +16,12 @@ import {
     popupEditProfileOpenBtn,
     popupNewPlaceForm,
     popupNewPlaceOpenBtn,
+    editAvatarButton,
+    popupEditAvatarForm,
 } from "./scripts/constants";
 import {Api} from "./components/Api";
 import {PopupWithSubmit} from "./components/PopupWithSubmit.js";
-
+// Испрваить добавление новой карточки
 const api = new Api(
     'https://mesto.nomoreparties.co/v1/cohort-30',
     '8a0021df-e451-4ea1-9a4d-dab486c52595'
@@ -37,27 +39,54 @@ const photoPopup = new PopupWithImage(".popup_type_image");
 photoPopup.setEventListeners();
 
 
+
+const editAvatarForm = new PopupWithForm(".popup_type_edit-avatar", (data) => {
+    api.updateAvatar(data.avatar_url).then(() => userInfo.setNewAvatar(data.avatar_url)).catch(err => console.log(err))
+});
+
+editAvatarForm.setEventListeners();
+editAvatarButton.addEventListener('click', function () {editAvatarForm.open();});
+
 const sectionRenderer = new Section(
     getCardsPromise,
-    (item) =>
-        new Card(
+    (item) => {
+        const card = new Card(
             item,
             "#card",
+            () => {
+                return Promise.all([
+                    getUserInfoPromise,
+                    getCardsPromise
+                ])
+            },
             {
                 imgClickHandler: (name, link) => {
                     photoPopup.open(name, link);
                 },
-                likeCardHandler: '',
-                deleteCardHandler: '',
+                likeCardHandler: () => {
+                    const isCardLiked = card.isCardLiked()
+                    const likePromise = isCardLiked ? api.unlikeCard(card.id()) : api.likeCard(card.id())
+
+                    likePromise.then(
+                        (data) => {
+                            card.updateLikes(data.likes);
+                        }
+                    )
+                },
+                deleteCardHandler: () => {
+                    submitPopup.setSubmitCallback(() => {
+                        api.deleteCard(card.id()).then(() => {
+                            card.deleteCard();
+                        })
+                    });
+                    submitPopup.open();
+                },
             },
-        ).generateCard(),
+        )
+        sectionRenderer.addItem(card.generateCard());
+    },
     ".cards"
 );
-
-// Promise.all([getUserInfoPromise, getCardsPromise]).then(() => {
-//     sectionRenderer.updateDelete(userInfo.getUserInfo()._id);
-// })
-
 
 const editProfileForm = new PopupWithForm(
     ".popup_type_profile-edit",
@@ -79,8 +108,8 @@ const newPlaceForm = new PopupWithForm(".popup_type_new-place", (data) => {
 
 newPlaceForm.setEventListeners();
 
-let changeProfileFormValidation = undefined;
-let newPlaceFormValidation = undefined;
+// let changeProfileFormValidation = undefined;
+// let newPlaceFormValidation = undefined;
 
 const validationConfig = {
     formSelector: ".popup__form",
@@ -107,6 +136,8 @@ function openPopupEditForm() {
     editProfileForm.open();
 }
 
+let newPlaceFormValidation = undefined;
+
 function openPopupNewPlace() {
     placeNameOnForm.value = "";
     placeUrlOnForm.value = "";
@@ -116,7 +147,7 @@ function openPopupNewPlace() {
 }
 
 const enableFormValidation = () => {
-    changeProfileFormValidation = new FormValidator(
+    const changeProfileFormValidation = new FormValidator(
         validationConfig,
         popupEditProfileForm
     );
@@ -127,6 +158,13 @@ const enableFormValidation = () => {
         popupNewPlaceForm
     );
     newPlaceFormValidation.enableValidation();
+
+    const  editAvatarFormValidation = new FormValidator(
+        validationConfig,
+        popupEditAvatarForm
+    );
+
+    editAvatarFormValidation.enableValidation();
 };
 enableFormValidation();
 

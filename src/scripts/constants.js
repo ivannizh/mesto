@@ -28,3 +28,13 @@ export const placeNameOnForm = popupEditNewPlace.querySelector(
 export const placeUrlOnForm = popupEditNewPlace.querySelector(
   ".popup__input_type_place-url"
 );
+
+export const editAvatarButton = document.querySelector(
+    ".profile__avatar-edit"
+);
+
+export const popupEditAvatar = document.querySelector(
+    ".popup_type_edit-avatar"
+);
+export const popupEditAvatarForm =
+    popupEditAvatar.querySelector(".popup__form");

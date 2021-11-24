@@ -15,7 +15,10 @@
 </header>
 <main class="main page__container">
     <section class="profile">
-        <img alt="Аватар профиля" class="profile__avatar">
+<!--        <div class="profile__avatar-container">-->
+            <img alt="Аватар профиля" class="profile__avatar" src="">
+            <button aria-label="Обновить автарку" class="profile__avatar-edit" type="button"></button>
+<!--        </div>-->
         <div class="profile__info">
             <div class="profile__edit">
                 <h1 class="profile__name"></h1>
@@ -32,6 +35,18 @@
 <footer class="footer page__container">
     <p class="footer__copyright">© 2021 Mesto Russia</p>
 </footer>
+<div class="popup popup_type_edit-avatar">
+    <div class="popup__container">
+        <button aria-label="закрыть" class="popup__close" type="button"></button>
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <form class="popup__form" name="change_profile_info" novalidate>
+            <input class="popup__input popup__input_type_avatar_url" id="avatar-url-input" name="avatar_url"
+                   placeholder="Ссылка на новую аватарку" required type="url">
+            <span class="popup__input-error avatar-url-input-error"></span>
+            <button class="popup__button" type="submit">Обновить</button>
+        </form>
+    </div>
+</div>
 <div class="popup popup_type_profile-edit">
     <div class="popup__container">
         <button aria-label="закрыть" class="popup__close" type="button"></button>

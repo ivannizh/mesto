@@ -10,8 +10,9 @@ export class UserInfo {
         this._dataPromise = dataPromise;
         this._dataPromise.then(data => {
             // console.log(data)
+            this._avaterURL = data.avatar;
             this.setUserInfo(data);
-            this.setUserAvatar(data.avatar);
+            this.setUserAvatar();
 
             // console.log('this._id', this._id)
             console.log('Recieve data for user')
@@ -34,6 +35,11 @@ export class UserInfo {
         })
     }
 
+    setNewAvatar(newURL) {
+        this._avaterURL = newURL;
+        this.setUserAvatar();
+    }
+
 
     getUserInfo() {
         return {
@@ -43,8 +49,8 @@ export class UserInfo {
         };
     }
 
-    setUserAvatar(url) {
-        this._avatar.setAttribute('src', url);
+    setUserAvatar() {
+        this._avatar.setAttribute('src', this._avaterURL);
     }
 
     setUserInfo(data) {
