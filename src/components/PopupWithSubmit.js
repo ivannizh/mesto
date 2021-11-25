@@ -11,6 +11,16 @@ export class PopupWithSubmit extends Popup {
     this._submitCallback = submitCallback;
   }
 
+  _handleEnterClose(event) {
+    console.log(event.key);
+    if (event.key === "Enter") {
+      console.log('event.key');
+      console.log(this);
+      this._submitCallback();
+      this.close();
+    }
+  }
+
   setEventListeners() {
     this._button.addEventListener("click", (event) => {
       this._submitCallback();
@@ -19,7 +29,13 @@ export class PopupWithSubmit extends Popup {
     super.setEventListeners();
   }
 
+  open() {
+    document.addEventListener("keydown", this._handleEnterClose.bind(this));
+    super.open();
+  }
+
   close() {
+    document.removeEventListener("keydown", this._handleEnterClose.bind(this));
     super.close();
   }
 }

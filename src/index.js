@@ -8,16 +8,16 @@ import {PopupWithForm} from "./components/PopupWithForm.js";
 import {UserInfo} from "./components/UserInfo.js";
 
 import {
+    editAvatarButton,
     inputUserabout,
     inputUserName,
     placeNameOnForm,
     placeUrlOnForm,
+    popupEditAvatarForm,
     popupEditProfileForm,
     popupEditProfileOpenBtn,
     popupNewPlaceForm,
     popupNewPlaceOpenBtn,
-    editAvatarButton,
-    popupEditAvatarForm,
 } from "./scripts/constants";
 import {Api} from "./components/Api";
 import {PopupWithSubmit} from "./components/PopupWithSubmit.js";
@@ -39,50 +39,57 @@ const photoPopup = new PopupWithImage(".popup_type_image");
 photoPopup.setEventListeners();
 
 
-
-const editAvatarForm = new PopupWithForm(".popup_type_edit-avatar", (data) => {
+const editAvatarForm = new PopupWithForm(".popup_type_edit-avatar", 'Сохранение...', (data) => {
     api.updateAvatar(data.avatar_url).then(() => userInfo.setNewAvatar(data.avatar_url)).catch(err => console.log(err))
 });
 
 editAvatarForm.setEventListeners();
-editAvatarButton.addEventListener('click', function () {editAvatarForm.open();});
+editAvatarButton.addEventListener('click', function () {
+    editAvatarForm.open();
+});
+
+
+function getNewCard(data) {
+    const card = new Card(
+        data,
+        "#card",
+        () => {
+            return Promise.all([
+                getUserInfoPromise,
+                getCardsPromise
+            ])
+        },
+        {
+            imgClickHandler: (name, link) => {
+                photoPopup.open(name, link);
+            },
+            likeCardHandler: () => {
+                const isCardLiked = card.isCardLiked()
+                const likePromise = isCardLiked ? api.unlikeCard(card.id()) : api.likeCard(card.id())
+
+                likePromise.then(
+                    (data) => {
+                        card.updateLikes(data.likes);
+                    }
+                )
+            },
+            deleteCardHandler: () => {
+                submitPopup.setSubmitCallback(() => {
+                    api.deleteCard(card.id()).then(() => {
+                        card.deleteCard();
+                    })
+                });
+                submitPopup.open();
+            },
+        },
+    )
+    return card
+}
 
 const sectionRenderer = new Section(
     getCardsPromise,
     (item) => {
-        const card = new Card(
-            item,
-            "#card",
-            () => {
-                return Promise.all([
-                    getUserInfoPromise,
-                    getCardsPromise
-                ])
-            },
-            {
-                imgClickHandler: (name, link) => {
-                    photoPopup.open(name, link);
-                },
-                likeCardHandler: () => {
-                    const isCardLiked = card.isCardLiked()
-                    const likePromise = isCardLiked ? api.unlikeCard(card.id()) : api.likeCard(card.id())
-
-                    likePromise.then(
-                        (data) => {
-                            card.updateLikes(data.likes);
-                        }
-                    )
-                },
-                deleteCardHandler: () => {
-                    submitPopup.setSubmitCallback(() => {
-                        api.deleteCard(card.id()).then(() => {
-                            card.deleteCard();
-                        })
-                    });
-                    submitPopup.open();
-                },
-            },
-        )
+        const card = getNewCard(item)
         sectionRenderer.addItem(card.generateCard());
     },
     ".cards"
@@ -90,6 +97,7 @@ const sectionRenderer = new Section(
 
 const editProfileForm = new PopupWithForm(
     ".popup_type_profile-edit",
+    'Сохранение...',
     (data) => {
         api.updateUserInfo(data).then(
             res => userInfo.setUserInfo(res)
@@ -98,18 +106,20 @@ const editProfileForm = new PopupWithForm(
 );
 
 editProfileForm.setEventListeners();
-const newPlaceForm = new PopupWithForm(".popup_type_new-place", (data) => {
-
+const newPlaceForm = new PopupWithForm(".popup_type_new-place", 'Создание...', (data) => {
+    newPlaceForm.activateAction(true);
     api.addNewCard({
         name: data.place_name,
         link: data.place_url,
-    }).then(res => sectionRenderer.addItem(res)).catch(err => console.log(err))
+    }).then(res => sectionRenderer.addItem(getNewCard(res).generateCard()))
+        .catch(err => console.log(err))
+        .finally(() => {
+            newPlaceForm.activateAction(false);
+        })
 });
 
 newPlaceForm.setEventListeners();
 
-// let changeProfileFormValidation = undefined;
-// let newPlaceFormValidation = undefined;
 
 const validationConfig = {
     formSelector: ".popup__form",
@@ -159,7 +169,7 @@ const enableFormValidation = () => {
     );
     newPlaceFormValidation.enableValidation();
 
-    const  editAvatarFormValidation = new FormValidator(
+    const editAvatarFormValidation = new FormValidator(
         validationConfig,
         popupEditAvatarForm
     );
