@@ -2,33 +2,23 @@ export class Section {
     constructor(renderedPromise, renderer, selector) {
         this._renderedItems = []
         this._renderer = renderer;
-        // this._cards = []
 
-        renderedPromise.then(
-            data => {
-                // console.log('DAAAATA', data);
+        renderedPromise
+            .then(data => {
                 this._renderedItems = data;
                 this._renderItems();
-            }
-        ).catch(err => console.log(err))
+            })
+            .catch(err => console.error(err))
 
         this._container = document.querySelector(selector);
     }
 
     _renderItems() {
         this._renderedItems.forEach((item) => {
-                 this._renderer(item);
-                // this._cards.push(card);
-                // this._container.append(card);
+                this._renderer(item);
             }
         );
-        // debugger
     }
-
-    // updateDelete(currentUserId) {
-    //     console.log('in updateDelete, this._renderedItems len is ', this._renderedItems.length)
-    //     this._cards.forEach(card => card.updateDelete(currentUserId))
-    // }
 
     addItem(item) {
         this._container.prepend(item);

@@ -12,12 +12,13 @@ export class Api {
                 headers: {
                     'Authorization': this._token,
                 }
-            }).then(r => {
-            if (r.ok) {
-                return r.json();
-            }
-            return Promise.reject('Error while fetching user data: ' + r.status);
-        })
+            })
+            .then(r => {
+                if (r.ok) {
+                    return r.json();
+                }
+                return Promise.reject('Error while fetching user data: ' + r.status);
+            })
     }
 
     getCards() {
@@ -28,12 +29,13 @@ export class Api {
                 headers: {
                     'Authorization': this._token,
                 }
-            }).then(r => {
-            if (r.ok) {
-                return r.json();
-            }
-            return Promise.reject('Error while fetching cards data: ' + r.status);
-        })
+            })
+            .then(r => {
+                if (r.ok) {
+                    return r.json();
+                }
+                return Promise.reject('Error while fetching cards data: ' + r.status);
+            })
     }
 
     updateUserInfo({name, about}) {
@@ -51,12 +53,13 @@ export class Api {
                         about: about,
                     }
                 )
-            }).then(r => {
-            if (r.ok) {
-                return r.json();
-            }
-            return Promise.reject('Error while updating user info: ' + r.status);
-        })
+            })
+            .then(r => {
+                if (r.ok) {
+                    return r.json();
+                }
+                return Promise.reject('Error while updating user info: ' + r.status);
+            })
     }
 
     addNewCard({name, link}) {
@@ -74,12 +77,13 @@ export class Api {
                         link: link,
                     }
                 )
-            }).then(r => {
-            if (r.ok) {
-                return r.json();
-            }
-            return Promise.reject('Error while adding new card: ' + r.status);
-        })
+            })
+            .then(r => {
+                if (r.ok) {
+                    return r.json();
+                }
+                return Promise.reject('Error while adding new card: ' + r.status);
+            })
     }
 
     likeCard(cardId) {
@@ -91,12 +95,13 @@ export class Api {
                     'Authorization': this._token,
                     'Content-type': 'application/json',
                 },
-            }).then(r => {
-            if (r.ok) {
-                return r.json();
-            }
-            return Promise.reject('Error while liking card: ' + r.status);
-        })
+            })
+            .then(r => {
+                if (r.ok) {
+                    return r.json();
+                }
+                return Promise.reject('Error while liking card: ' + r.status);
+            })
     }
 
     unlikeCard(cardId) {
@@ -108,12 +113,13 @@ export class Api {
                     'Authorization': this._token,
                     'Content-type': 'application/json',
                 },
-            }).then(r => {
-            if (r.ok) {
-                return r.json();
-            }
-            return Promise.reject('Error while liking card: ' + r.status);
-        })
+            })
+            .then(r => {
+                if (r.ok) {
+                    return r.json();
+                }
+                return Promise.reject('Error while liking card: ' + r.status);
+            })
     }
 
     deleteCard(cardId) {
@@ -124,13 +130,15 @@ export class Api {
                 headers: {
                     'Authorization': this._token,
                 },
-            }).then(r => {
-            if (r.ok) {
-                return Promise.resolve();
-            }
-            return Promise.reject('Error while liking card: ' + r.status);
-        })
+            })
+            .then(r => {
+                if (r.ok) {
+                    return Promise.resolve();
+                }
+                return Promise.reject('Error while liking card: ' + r.status);
+            })
     }
+
     updateAvatar(newURL) {
         return fetch(
             `${this._url}/users/me/avatar`,
@@ -145,12 +153,13 @@ export class Api {
                         avatar: newURL,
                     }
                 )
-            }).then(r => {
-            if (r.ok) {
-                return Promise.resolve();
-            }
-            return Promise.reject('Error while liking card: ' + r.status);
-        })
+            })
+            .then(r => {
+                if (r.ok) {
+                    return Promise.resolve();
+                }
+                return Promise.reject('Error while liking card: ' + r.status);
+            })
     }
 
 }

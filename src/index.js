@@ -6,7 +6,8 @@ import {Section} from "./components/Section.js";
 import {PopupWithImage} from "./components/PopupWithImage.js";
 import {PopupWithForm} from "./components/PopupWithForm.js";
 import {UserInfo} from "./components/UserInfo.js";
-
+import {Api} from "./components/Api";
+import {PopupWithSubmit} from "./components/PopupWithSubmit.js";
 import {
     editAvatarButton,
     inputUserabout,
@@ -18,32 +19,31 @@ import {
     popupEditProfileOpenBtn,
     popupNewPlaceForm,
     popupNewPlaceOpenBtn,
+    validationConfig,
 } from "./scripts/constants";
-import {Api} from "./components/Api";
-import {PopupWithSubmit} from "./components/PopupWithSubmit.js";
-// Испрваить добавление новой карточки
+
+
 const api = new Api(
     'https://mesto.nomoreparties.co/v1/cohort-30',
     '8a0021df-e451-4ea1-9a4d-dab486c52595'
 )
-
-const submitPopup = new PopupWithSubmit(".popup_type_submit");
-submitPopup.setEventListeners();
 
 const getUserInfoPromise = api.getUserInfo();
 const getCardsPromise = api.getCards();
 
 const userInfo = new UserInfo(getUserInfoPromise);
 
+const submitPopup = new PopupWithSubmit(".popup_type_submit");
+submitPopup.setEventListeners();
+
 const photoPopup = new PopupWithImage(".popup_type_image");
 photoPopup.setEventListeners();
-
 
 const editAvatarForm = new PopupWithForm(".popup_type_edit-avatar", 'Сохранение...', (data) => {
     editAvatarForm.activateAction(true);
     api.updateAvatar(data.avatar_url)
         .then(() => userInfo.setNewAvatar(data.avatar_url))
-        .catch(err => console.log(err))
+        .catch(err => console.error(err))
         .finally(() => editAvatarForm.activateAction(false))
 });
 editAvatarForm.setEventListeners();
@@ -70,18 +70,15 @@ function getNewCard(data) {
                 const isCardLiked = card.isCardLiked()
                 const likePromise = isCardLiked ? api.unlikeCard(card.id()) : api.likeCard(card.id())
 
-                likePromise.then(
-                    (data) => {
-                        card.updateLikes(data.likes);
-                    }
-                )
+                likePromise
+                    .then(data => card.updateLikes(data.likes))
+                    .catch(err => console.error(err))
             },
             deleteCardHandler: () => {
                 submitPopup.setSubmitCallback(() => {
                     api.deleteCard(card.id())
-                        .then(() => {
-                            card.deleteCard();
-                        })
+                        .then(() => card.deleteCard())
+                        .catch(err => console.error(err))
                 });
                 submitPopup.open();
             },
@@ -105,37 +102,27 @@ const editProfileForm = new PopupWithForm(
     (data) => {
         editProfileForm.activateAction(true);
         api.updateUserInfo(data)
-            .then(
-            res => userInfo.setUserInfo(res)
-        )
+            .then(res => userInfo.setUserInfo(res))
+            .catch(err => console.error(err))
             .finally(() => editProfileForm.activateAction(false))
     }
 );
-
 editProfileForm.setEventListeners();
+
 const newPlaceForm = new PopupWithForm(".popup_type_new-place", 'Создание...', (data) => {
     newPlaceForm.activateAction(true);
     api.addNewCard({
         name: data.place_name,
         link: data.place_url,
-    }).then(res => sectionRenderer.addItem(getNewCard(res).generateCard()))
-        .catch(err => console.log(err))
+    })
+        .then(res => sectionRenderer.addItem(getNewCard(res).generateCard()))
+        .catch(err => console.error(err))
         .finally(() => {
             newPlaceForm.activateAction(false);
         })
 });
-
 newPlaceForm.setEventListeners();
 
-
-const validationConfig = {
-    formSelector: ".popup__form",
-    inputSelector: ".popup__input",
-    submitButtonSelector: ".popup__button",
-    inactiveButtonClass: "popup__button_disabled",
-    inputErrorClass: "popup__input_type_error",
-    errorClass: "popup__error_visible",
-};
 
 function openPopupEditForm() {
     const data = userInfo.getUserInfo();
@@ -153,7 +140,9 @@ function openPopupEditForm() {
     editProfileForm.open();
 }
 
-let newPlaceFormValidation = undefined;
+let newPlaceFormValidation;
+let changeProfileFormValidation;
+let editAvatarFormValidation;
 
 function openPopupNewPlace() {
     placeNameOnForm.value = "";
@@ -164,23 +153,13 @@ function openPopupNewPlace() {
 }
 
 const enableFormValidation = () => {
-    const changeProfileFormValidation = new FormValidator(
-        validationConfig,
-        popupEditProfileForm
-    );
+    changeProfileFormValidation = new FormValidator(validationConfig, popupEditProfileForm);
     changeProfileFormValidation.enableValidation();
 
-    newPlaceFormValidation = new FormValidator(
-        validationConfig,
-        popupNewPlaceForm
-    );
+    newPlaceFormValidation = new FormValidator(validationConfig, popupNewPlaceForm);
     newPlaceFormValidation.enableValidation();
 
-    const editAvatarFormValidation = new FormValidator(
-        validationConfig,
-        popupEditAvatarForm
-    );
-
+    editAvatarFormValidation = new FormValidator(validationConfig, popupEditAvatarForm);
     editAvatarFormValidation.enableValidation();
 };
 enableFormValidation();

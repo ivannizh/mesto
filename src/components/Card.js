@@ -32,7 +32,8 @@ export class Card {
         this._likes = likes;
         this._showLike()
     }
-    id () {
+
+    id() {
         return this._id;
     }
 
@@ -91,21 +92,7 @@ export class Card {
     }
 
     deleteCard() {
-        // this._element
-        //     .querySelector(".card__delete")
-        //     .removeEventListener("click", this._deleteCardEvent);
-        // this._like.removeEventListener("click", this._toggleLikeEvent);
         this._element.remove();
     }
 
-    // _toggleLikeEvent() {
-    //     this._like.classList.toggle("card__like_active");
-    // }
-
-    // updateDelete(currentUserId) {
-    //     console.log('this._owner._id', this._owner._id, 'currentUserId', currentUserId, this._owner._id === currentUserId)
-    //     if (this._owner._id === currentUserId) {
-    //         this._deleteIcon.classList.add('_deleteIcon');
-    //     }
-    // }
 }
