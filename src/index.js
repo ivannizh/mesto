@@ -40,9 +40,12 @@ photoPopup.setEventListeners();
 
 
 const editAvatarForm = new PopupWithForm(".popup_type_edit-avatar", 'Сохранение...', (data) => {
-    api.updateAvatar(data.avatar_url).then(() => userInfo.setNewAvatar(data.avatar_url)).catch(err => console.log(err))
+    editAvatarForm.activateAction(true);
+    api.updateAvatar(data.avatar_url)
+        .then(() => userInfo.setNewAvatar(data.avatar_url))
+        .catch(err => console.log(err))
+        .finally(() => editAvatarForm.activateAction(false))
 });
-
 editAvatarForm.setEventListeners();
 editAvatarButton.addEventListener('click', function () {
     editAvatarForm.open();
@@ -75,9 +78,10 @@ function getNewCard(data) {
             },
             deleteCardHandler: () => {
                 submitPopup.setSubmitCallback(() => {
-                    api.deleteCard(card.id()).then(() => {
-                        card.deleteCard();
-                    })
+                    api.deleteCard(card.id())
+                        .then(() => {
+                            card.deleteCard();
+                        })
                 });
                 submitPopup.open();
             },
@@ -99,9 +103,12 @@ const editProfileForm = new PopupWithForm(
     ".popup_type_profile-edit",
     'Сохранение...',
     (data) => {
-        api.updateUserInfo(data).then(
+        editProfileForm.activateAction(true);
+        api.updateUserInfo(data)
+            .then(
             res => userInfo.setUserInfo(res)
         )
+            .finally(() => editProfileForm.activateAction(false))
     }
 );
 
