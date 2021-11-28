@@ -4,13 +4,10 @@ export class PopupWithSubmit extends Popup {
     constructor(selector, submitHandler) {
         super(selector);
 
-        this._submiCallBack = submitHandler;
+        this._submitCallback = submitHandler;
         this._button = this._container.querySelector('.popup__button')
     }
 
-    getCard() {
-        return this._card;
-    }
 
     open(card) {
         this._card = card;
@@ -19,7 +16,7 @@ export class PopupWithSubmit extends Popup {
 
     setEventListeners() {
         this._button.addEventListener("click", () => {
-            this._submitCallback(this._card.id());
+            this._submitCallback(this._card);
         });
         super.setEventListeners();
     }

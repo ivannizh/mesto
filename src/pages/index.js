@@ -39,10 +39,12 @@ getUserInfoPromise
 
 const submitPopup = new PopupWithSubmit(
     ".popup_type_submit",
-    () => {
-        const card = submitPopup.getCard()
+    (card) => {
         api.deleteCard(card.id())
-            .then(() => card.deleteCard())
+            .then(() => {
+                card.deleteCard();
+                submitPopup.close();
+            })
             .catch(err => console.error(err))
     });
 
@@ -158,6 +160,8 @@ function openPopupEditForm() {
     inputUserName.dispatchEvent(event);
     inputUserAbout.dispatchEvent(event);
 
+    changeProfileFormValidation.toggleButtonState();
+
     popupEditProfile.open();
 }
 
@@ -166,7 +170,7 @@ let changeProfileFormValidation;
 let editAvatarFormValidation;
 
 function openPopupNewPlace() {
-    newPlaceFormValidation.disableSubmitBtn();
+    newPlaceFormValidation.toggleButtonState();
     popupNewPlace.open();
 }
 
