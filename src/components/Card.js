@@ -1,6 +1,6 @@
 export class Card {
 
-    constructor({_id, likes, owner, name, link}, cardSelector, {
+    constructor({_id, likes, owner, name, link}, userId, cardSelector, {
         imgClickHandler,
         likeCardHandler,
         deleteCardHandler
@@ -13,18 +13,13 @@ export class Card {
         this._name = name;
         this._link = link;
 
+        this._userId = userId;
+
         this._imgClickHandler = imgClickHandler;
         this._likeCardHandler = likeCardHandler;
         this._deleteCardHandler = deleteCardHandler;
 
         return this;
-    }
-
-    setUserId(userId) {
-        this._userId = userId;
-
-        this._showLike();
-        this._showDeleteButton();
     }
 
     updateLikes(likes) {
@@ -80,6 +75,9 @@ export class Card {
         this._title.textContent = this._name;
 
         this._setEventListeners();
+
+        this._showLike();
+        this._showDeleteButton();
 
         return this._element;
     }

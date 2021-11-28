@@ -12,13 +12,12 @@ import {
     editAvatarButton,
     inputUserAbout,
     inputUserName,
-    placeNameOnForm,
-    placeUrlOnForm,
     popupEditAvatarForm,
     popupEditProfileForm,
     popupEditProfileOpenBtn,
     popupNewPlaceForm,
     popupNewPlaceOpenBtn,
+    profileSelectors,
     validationConfig,
 } from "../scripts/constants";
 
@@ -30,11 +29,25 @@ const api = new Api(
 
 const getUserInfoPromise = api.getUserInfo();
 const getCardsPromise = api.getCards();
+let userId = null;
 
-const userInfo = new UserInfo(getUserInfoPromise);
-getUserInfoPromise
-    .then(data => userInfo.setUserInfo(data))
-    .catch(err => console.log(err))
+const sectionRenderer = new Section(
+    (item) => {
+        const card = createCard(item, userId)
+        sectionRenderer.addItemToEnd(card.generateCard());
+    },
+    ".cards"
+);
+
+const userInfo = new UserInfo(profileSelectors);
+
+Promise.all([getUserInfoPromise, getCardsPromise])
+    .then(([userData, cards]) => {
+        userId = userData._id;
+        sectionRenderer.renderItems(cards);
+        userInfo.setUserInfo(userData)
+    })
+    .catch(err => console.error(err))
 
 
 const submitPopup = new PopupWithSubmit(
@@ -69,9 +82,10 @@ editAvatarButton.addEventListener('click', function () {
 });
 
 
-function createCard(data) {
+function createCard(data, userId) {
     const card = new Card(
         data,
+        userId,
         "#card",
         {
             imgClickHandler: (name, link) => {
@@ -90,25 +104,8 @@ function createCard(data) {
             },
         },
     )
-
-    Promise.all([getUserInfoPromise, getCardsPromise])
-        .then(([userData, _]) => card.setUserId(userData._id))
-        .catch(err => console.error(err))
     return card
 }
-
-const sectionRenderer = new Section(
-    (item) => {
-        const card = createCard(item)
-        sectionRenderer.addItemToEnd(card.generateCard());
-    },
-    ".cards"
-);
-getCardsPromise
-    .then(data => {
-        sectionRenderer.renderItems(data);
-    })
-    .catch(err => console.error(err))
 
 
 const popupEditProfile = new PopupWithForm(
@@ -134,9 +131,8 @@ const popupNewPlace = new PopupWithForm(".popup_type_new-place", 'Создани
         link: data.place_url,
     })
         .then(res => {
-            sectionRenderer.addItem(createCard(res).generateCard());
-            placeNameOnForm.value = "";
-            placeUrlOnForm.value = "";
+            sectionRenderer.addItem(createCard(res, userInfo.getUserInfo()).generateCard());
+            popupNewPlaceForm.reset();
             popupNewPlace.close();
         })
         .catch(err => console.error(err))

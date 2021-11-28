@@ -6,7 +6,7 @@ export class Api {
 
     _getResponseData(res) {
         if (!res.ok) {
-            return Promise.reject(`Error while fetching data: ${r.status}`);
+            return Promise.reject(`Error while fetching data: ${res.status}`);
         }
         return res.json();
     }

@@ -66,7 +66,7 @@
         <h2 class="popup__title">Новое место</h2>
         <form class="popup__form" name="new_place" novalidate>
             <input class="popup__input popup__input_type_place-name" id="place-name-input" name="place_name"
-                   placeholder="Название" required type="text">
+                   maxlength="30" minlength="2" placeholder="Название" required type="text">
             <span class="popup__input-error place-name-input-error"></span>
             <input class="popup__input popup__input_type_place-url" id="place-url-input" name="place_url"
                    placeholder="Ссылка на картинку" required type="url">
