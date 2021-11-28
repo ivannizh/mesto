@@ -1,16 +1,16 @@
-import "./styles/index.css";
+import "../styles/index.css";
 
-import {Card} from "./components/Card.js";
-import {FormValidator} from "./components/FormValidator.js";
-import {Section} from "./components/Section.js";
-import {PopupWithImage} from "./components/PopupWithImage.js";
-import {PopupWithForm} from "./components/PopupWithForm.js";
-import {UserInfo} from "./components/UserInfo.js";
-import {Api} from "./components/Api";
-import {PopupWithSubmit} from "./components/PopupWithSubmit.js";
+import {Card} from "../components/Card.js";
+import {FormValidator} from "../components/FormValidator.js";
+import {Section} from "../components/Section.js";
+import {PopupWithImage} from "../components/PopupWithImage.js";
+import {PopupWithForm} from "../components/PopupWithForm.js";
+import {UserInfo} from "../components/UserInfo.js";
+import {Api} from "../components/Api";
+import {PopupWithSubmit} from "../components/PopupWithSubmit.js";
 import {
     editAvatarButton,
-    inputUserabout,
+    inputUserAbout,
     inputUserName,
     placeNameOnForm,
     placeUrlOnForm,
@@ -20,7 +20,7 @@ import {
     popupNewPlaceForm,
     popupNewPlaceOpenBtn,
     validationConfig,
-} from "./scripts/constants";
+} from "../scripts/constants";
 
 
 const api = new Api(
@@ -32,8 +32,20 @@ const getUserInfoPromise = api.getUserInfo();
 const getCardsPromise = api.getCards();
 
 const userInfo = new UserInfo(getUserInfoPromise);
+getUserInfoPromise
+    .then(data => userInfo.setUserInfo(data))
+    .catch(err => console.log(err))
 
-const submitPopup = new PopupWithSubmit(".popup_type_submit");
+
+const submitPopup = new PopupWithSubmit(
+    ".popup_type_submit",
+    () => {
+        const card = submitPopup.getCard()
+        api.deleteCard(card.id())
+            .then(() => card.deleteCard())
+            .catch(err => console.error(err))
+    });
+
 submitPopup.setEventListeners();
 
 const photoPopup = new PopupWithImage(".popup_type_image");
@@ -41,8 +53,11 @@ photoPopup.setEventListeners();
 
 const editAvatarForm = new PopupWithForm(".popup_type_edit-avatar", 'Сохранение...', (data) => {
     editAvatarForm.activateAction(true);
-    api.updateAvatar(data.avatar_url)
-        .then(() => userInfo.setNewAvatar(data.avatar_url))
+    api.updateAvatar(data.avatarUrl)
+        .then((userData) => {
+            userInfo.setUserInfo(userData);
+            editAvatarForm.close();
+        })
         .catch(err => console.error(err))
         .finally(() => editAvatarForm.activateAction(false))
 });
@@ -52,16 +67,10 @@ editAvatarButton.addEventListener('click', function () {
 });
 
 
-function getNewCard(data) {
+function createCard(data) {
     const card = new Card(
         data,
         "#card",
-        () => {
-            return Promise.all([
-                getUserInfoPromise,
-                getCardsPromise
-            ])
-        },
         {
             imgClickHandler: (name, link) => {
                 photoPopup.open(name, link);
@@ -75,59 +84,71 @@ function getNewCard(data) {
                     .catch(err => console.error(err))
             },
             deleteCardHandler: () => {
-                submitPopup.setSubmitCallback(() => {
-                    api.deleteCard(card.id())
-                        .then(() => card.deleteCard())
-                        .catch(err => console.error(err))
-                });
-                submitPopup.open();
+                submitPopup.open(card);
             },
         },
     )
+
+    Promise.all([getUserInfoPromise, getCardsPromise])
+        .then(([userData, _]) => card.setUserId(userData._id))
+        .catch(err => console.error(err))
     return card
 }
 
 const sectionRenderer = new Section(
-    getCardsPromise,
     (item) => {
-        const card = getNewCard(item)
-        sectionRenderer.addItem(card.generateCard());
+        const card = createCard(item)
+        sectionRenderer.addItemToEnd(card.generateCard());
     },
     ".cards"
 );
+getCardsPromise
+    .then(data => {
+        sectionRenderer.renderItems(data);
+    })
+    .catch(err => console.error(err))
 
-const editProfileForm = new PopupWithForm(
+
+const popupEditProfile = new PopupWithForm(
     ".popup_type_profile-edit",
     'Сохранение...',
     (data) => {
-        editProfileForm.activateAction(true);
+        popupEditProfile.activateAction(true);
         api.updateUserInfo(data)
-            .then(res => userInfo.setUserInfo(res))
+            .then(res => {
+                userInfo.setUserInfo(res);
+                popupEditProfile.close();
+            })
             .catch(err => console.error(err))
-            .finally(() => editProfileForm.activateAction(false))
+            .finally(() => popupEditProfile.activateAction(false))
     }
 );
-editProfileForm.setEventListeners();
+popupEditProfile.setEventListeners();
 
-const newPlaceForm = new PopupWithForm(".popup_type_new-place", 'Создание...', (data) => {
-    newPlaceForm.activateAction(true);
+const popupNewPlace = new PopupWithForm(".popup_type_new-place", 'Создание...', (data) => {
+    popupNewPlace.activateAction(true);
     api.addNewCard({
         name: data.place_name,
         link: data.place_url,
     })
-        .then(res => sectionRenderer.addItem(getNewCard(res).generateCard()))
+        .then(res => {
+            sectionRenderer.addItem(createCard(res).generateCard());
+            placeNameOnForm.value = "";
+            placeUrlOnForm.value = "";
+            popupNewPlace.close();
+        })
         .catch(err => console.error(err))
         .finally(() => {
-            newPlaceForm.activateAction(false);
+            popupNewPlace.activateAction(false);
         })
 });
-newPlaceForm.setEventListeners();
+popupNewPlace.setEventListeners();
 
 
 function openPopupEditForm() {
     const data = userInfo.getUserInfo();
     inputUserName.value = data.name;
-    inputUserabout.value = data.about;
+    inputUserAbout.value = data.about;
 
     const event = new Event("input", {
         bubbles: true,
@@ -135,9 +156,9 @@ function openPopupEditForm() {
     });
 
     inputUserName.dispatchEvent(event);
-    inputUserabout.dispatchEvent(event);
+    inputUserAbout.dispatchEvent(event);
 
-    editProfileForm.open();
+    popupEditProfile.open();
 }
 
 let newPlaceFormValidation;
@@ -145,11 +166,8 @@ let changeProfileFormValidation;
 let editAvatarFormValidation;
 
 function openPopupNewPlace() {
-    placeNameOnForm.value = "";
-    placeUrlOnForm.value = "";
-
     newPlaceFormValidation.disableSubmitBtn();
-    newPlaceForm.open();
+    popupNewPlace.open();
 }
 
 const enableFormValidation = () => {

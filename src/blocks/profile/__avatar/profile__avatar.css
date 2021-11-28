@@ -4,15 +4,8 @@
     border-radius: 60px;
     display: inline;
     margin-right: 30px;
+    object-fit: cover;
 }
-
-/*.profile__avatar:hover {*/
-/*    opacity: 0.2;*/
-/*}*/
-
-/*.profile__avatar-edit:hover + .profile__avatar{*/
-/*    opacity: 0.2;*/
-/*}*/
 
 @media screen and (max-width: 920px) {
     .profile__avatar {

@@ -29,13 +29,11 @@ export class PopupWithForm extends Popup {
             event.preventDefault();
             const data = this._getInputValues();
             this._submitCallback(data);
-            this.close();
         });
         super.setEventListeners();
     }
 
     close() {
-        this._form.reset();
         super.close();
     }
 }

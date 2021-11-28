@@ -1,6 +1,6 @@
 export class Card {
 
-    constructor({_id, likes, owner, name, link}, cardSelector, currentUserPromise, {
+    constructor({_id, likes, owner, name, link}, cardSelector, {
         imgClickHandler,
         likeCardHandler,
         deleteCardHandler
@@ -13,19 +13,18 @@ export class Card {
         this._name = name;
         this._link = link;
 
-        currentUserPromise().then(
-            (data) => {
-                this._userId = data[0]._id;
-                this._showLike();
-                this._showDeleteButton();
-            }
-        )
-
         this._imgClickHandler = imgClickHandler;
         this._likeCardHandler = likeCardHandler;
         this._deleteCardHandler = deleteCardHandler;
 
         return this;
+    }
+
+    setUserId(userId) {
+        this._userId = userId;
+
+        this._showLike();
+        this._showDeleteButton();
     }
 
     updateLikes(likes) {

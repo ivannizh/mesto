@@ -19,7 +19,7 @@ export const popupNewPlaceForm =
 export const inputUserName = popupEditProfile.querySelector(
   ".popup__input_type_name"
 );
-export const inputUserabout = popupEditProfile.querySelector(
+export const inputUserAbout = popupEditProfile.querySelector(
   ".popup__input_type_about"
 );
 export const placeNameOnForm = popupEditNewPlace.querySelector(

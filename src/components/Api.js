@@ -4,6 +4,13 @@ export class Api {
         this._token = token;
     }
 
+    _getResponseData(res) {
+        if (!res.ok) {
+            return Promise.reject(`Error while fetching data: ${r.status}`);
+        }
+        return res.json();
+    }
+
     getUserInfo() {
         return fetch(
             `${this._url}/users/me`,
@@ -13,12 +20,7 @@ export class Api {
                     'Authorization': this._token,
                 }
             })
-            .then(r => {
-                if (r.ok) {
-                    return r.json();
-                }
-                return Promise.reject('Error while fetching user data: ' + r.status);
-            })
+            .then(this._getResponseData)
     }
 
     getCards() {
@@ -30,12 +32,7 @@ export class Api {
                     'Authorization': this._token,
                 }
             })
-            .then(r => {
-                if (r.ok) {
-                    return r.json();
-                }
-                return Promise.reject('Error while fetching cards data: ' + r.status);
-            })
+            .then(this._getResponseData)
     }
 
     updateUserInfo({name, about}) {
@@ -54,12 +51,7 @@ export class Api {
                     }
                 )
             })
-            .then(r => {
-                if (r.ok) {
-                    return r.json();
-                }
-                return Promise.reject('Error while updating user info: ' + r.status);
-            })
+            .then(this._getResponseData)
     }
 
     addNewCard({name, link}) {
@@ -78,12 +70,7 @@ export class Api {
                     }
                 )
             })
-            .then(r => {
-                if (r.ok) {
-                    return r.json();
-                }
-                return Promise.reject('Error while adding new card: ' + r.status);
-            })
+            .then(this._getResponseData)
     }
 
     likeCard(cardId) {
@@ -96,12 +83,7 @@ export class Api {
                     'Content-type': 'application/json',
                 },
             })
-            .then(r => {
-                if (r.ok) {
-                    return r.json();
-                }
-                return Promise.reject('Error while liking card: ' + r.status);
-            })
+            .then(this._getResponseData)
     }
 
     unlikeCard(cardId) {
@@ -114,12 +96,7 @@ export class Api {
                     'Content-type': 'application/json',
                 },
             })
-            .then(r => {
-                if (r.ok) {
-                    return r.json();
-                }
-                return Promise.reject('Error while liking card: ' + r.status);
-            })
+            .then(this._getResponseData)
     }
 
     deleteCard(cardId) {
@@ -131,12 +108,7 @@ export class Api {
                     'Authorization': this._token,
                 },
             })
-            .then(r => {
-                if (r.ok) {
-                    return Promise.resolve();
-                }
-                return Promise.reject('Error while liking card: ' + r.status);
-            })
+            .then(this._getResponseData)
     }
 
     updateAvatar(newURL) {
@@ -154,12 +126,6 @@ export class Api {
                     }
                 )
             })
-            .then(r => {
-                if (r.ok) {
-                    return Promise.resolve();
-                }
-                return Promise.reject('Error while liking card: ' + r.status);
-            })
+            .then(this._getResponseData)
     }
-
 }

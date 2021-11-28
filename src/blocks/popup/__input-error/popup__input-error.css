@@ -6,7 +6,7 @@
     line-height: 15px;
     color: #FF0000;
     opacity: 0;
-    min-height: 15px;
+    height: 15px;
     margin-bottom: 10px;
     display: inline-block;
     transition-property: opacity;
