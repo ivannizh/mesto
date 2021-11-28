@@ -19,7 +19,7 @@ export class UserInfo {
     }
 
 
-    setUserInfo({ name, about, avatar, _id }) {
+    setUserInfo({name, about, avatar, _id}) {
         this._name = name;
         this._about = about;
         this._id = _id;

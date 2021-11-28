@@ -2,7 +2,7 @@
     transition-property: opacity;
     transition-duration: 0.5s;
 
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0, 0, 0, 0.8);
     background-image: url("../../../images/edit_button.png");
     background-repeat: no-repeat;
     background-size: auto;
