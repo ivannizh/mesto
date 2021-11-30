@@ -19,7 +19,7 @@ import {
     popupNewPlaceOpenBtn,
     profileSelectors,
     validationConfig,
-} from "../scripts/constants";
+} from "../utils/constants";
 
 
 const api = new Api(
@@ -127,11 +127,11 @@ popupEditProfile.setEventListeners();
 const popupNewPlace = new PopupWithForm(".popup_type_new-place", 'Создание...', (data) => {
     popupNewPlace.activateAction(true);
     api.addNewCard({
-        name: data.place_name,
-        link: data.place_url,
+        name: data.placeName,
+        link: data.placeUrl,
     })
         .then(res => {
-            sectionRenderer.addItem(createCard(res, userInfo.getUserInfo()).generateCard());
+            sectionRenderer.addItem(createCard(res, userId).generateCard());
             popupNewPlaceForm.reset();
             popupNewPlace.close();
         })

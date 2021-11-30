@@ -8,9 +8,9 @@ export class FormValidator {
         this._submitButtonSelector = validationSettings.submitButtonSelector;
 
         this._inputList = Array.from(
-            formElement.querySelectorAll(this._inputSelector)
+            this._formElement.querySelectorAll(this._inputSelector)
         );
-        this._buttonElement = formElement.querySelector(this._submitButtonSelector);
+        this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
     }
 
     _showInputError(inputElement, errorMessage) {
